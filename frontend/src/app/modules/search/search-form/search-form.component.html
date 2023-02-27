@@ -1,0 +1,100 @@
+<div class="header">
+  <h1>Select filter parameters</h1>
+  <button tuiButton appearance="secondary-destructive" (click)="resetForm()">Reset</button>
+</div>
+
+<form class="search-form" [formGroup]="form">
+  <div class="tui-row tui-row_sme">
+    <div class="tui-col_4 tui-space_top-4">
+      <h3 class="tui-form__header tui-form__header_margin-top_none">Search</h3>
+      <div class="tui-form__row">
+        <tui-input
+          formControlName="search"
+          [tuiTextfieldCleaner]="true"
+        >
+          Occupation
+        </tui-input>
+        <tui-error
+          formControlName="search"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+      </div>
+
+      <h3 class="tui-form__header">Rate range</h3>
+      <tui-input-range
+        [min]="1"
+        [max]="1000"
+        [quantum]="1"
+        formControlName="rateRange"
+        [tuiTextfieldSize]="'m'"
+        [tuiTextfieldLabelOutside]="true"
+        [pluralize]="pluralize"
+      ></tui-input-range>
+
+      <h3 class="tui-form__header">Experience</h3>
+      <div class="tui-form__row">
+        <tui-input-slider
+          formControlName="experience"
+          [min]="0"
+          [max]="100"
+          [segments]="1"
+        >
+          Years
+        </tui-input-slider>
+        <tui-error
+          formControlName="experience"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+      </div>
+
+      <h3 class="tui-form__header">Languages</h3>
+      <div class="tui-form__row">
+        <tui-multi-select
+          formControlName="languages"
+          [tuiTextfieldLabelOutside]="true"
+          [editable]="false"
+        >
+          Choose languages
+          <tui-data-list-wrapper
+            *tuiDataList
+            tuiMultiSelectGroup
+            [items]="languagesNames"
+          ></tui-data-list-wrapper>
+        </tui-multi-select>
+      </div>
+
+      <h3 class="tui-form__header">Works From</h3>
+      <div
+        tuiGroup
+        class="tui-form__row"
+        [adaptive]="true"
+        [collapsed]="true"
+      >
+        <tui-radio-block
+          contentAlign="right"
+          formControlName="workType"
+          [item]="WorkType.Office"
+          size="l"
+        >
+          {{WorkType.Office}}
+        </tui-radio-block>
+        <tui-radio-block
+          contentAlign="right"
+          formControlName="workType"
+          [item]="WorkType.Home"
+          size="l"
+        >
+          {{WorkType.Home}}
+        </tui-radio-block>
+        <tui-radio-block
+          contentAlign="right"
+          formControlName="workType"
+          [item]="WorkType.Both"
+          size="l"
+        >
+          {{WorkType.Both}}
+        </tui-radio-block>
+      </div>
+    </div>
+  </div>
+</form>
