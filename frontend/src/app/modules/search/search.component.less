@@ -1,0 +1,21 @@
+@import '~src/style/shared/variables';
+
+@left-side-width: 480px;
+
+:host {
+  position: relative;
+  display: flex;
+}
+
+.left-side {
+  position: fixed;
+  top: @header-height + @body-padding;
+  left: @body-padding;
+  bottom: @body-padding;
+  width: @left-side-width;
+}
+
+.content {
+  width: calc(100% - @left-side-width + 50px);
+  padding-left: @left-side-width + 50px;
+}
