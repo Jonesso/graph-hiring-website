@@ -1,0 +1,47 @@
+<ng-container *ngIf="withGraphView else withoutGraph">
+  <tui-tabs [(activeItemIndex)]="activeItemIndex">
+    <button
+      tuiTab
+    >
+      <tui-svg
+        src="tuiIconAlignJustifyLarge"
+        class="tui-space_right-2"
+      ></tui-svg>
+      Result list
+    </button>
+
+    <button
+      tuiTab
+    >
+      <tui-svg
+        [src]="iconSrc"
+        class="tui-space_right-2"
+      ></tui-svg>
+      Interactive graph
+    </button>
+  </tui-tabs>
+
+  <ng-container *ngIf="activeItemIndex === 0">
+    <ng-container *ngTemplateOutlet="resultList"></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="activeItemIndex === 1">
+    <ng-container *ngTemplateOutlet="resultGraph"></ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #withoutGraph>
+  <ng-container *ngTemplateOutlet="resultList"></ng-container>
+</ng-template>
+
+<ng-template #resultList>
+  <h4 class="tui-text_h4">Search result</h4>
+
+  <tui-scrollbar>
+    TODO: list component
+  </tui-scrollbar>
+</ng-template>
+
+<ng-template #resultGraph>
+  TODO: graph component
+</ng-template>
