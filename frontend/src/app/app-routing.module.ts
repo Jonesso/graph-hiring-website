@@ -8,6 +8,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'auth',
+    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
     path: 'search',
     loadChildren: () => import('./modules/search/search.module').then(m => m.SearchModule),
     runGuardsAndResolvers: 'always'

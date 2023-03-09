@@ -1,0 +1,50 @@
+<tui-island
+  size="l"
+  textAlign="center"
+>
+  <h1 class="tui-space_bottom-6">Sign In</h1>
+  <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+    <tui-input formControlName="email">
+      E-mail
+      <input
+        tuiTextfield
+        type="email"
+      />
+    </tui-input>
+    <tui-error
+      formControlName="email"
+      [error]="[] | tuiFieldError | async"
+    >Must be a valid email
+    </tui-error>
+
+    <tui-input-password
+      formControlName="password"
+      class="tui-space_top-4"
+    >
+      Password
+      <input
+        tuiTextfield
+      />
+    </tui-input-password>
+
+
+    <div class="sign-in-form__actions tui-space_top-5">
+      <button
+        tuiButton
+        appearance="primary"
+        class="tui-space_right-5"
+        type="submit">
+        SIGN IN
+      </button>
+
+      <span class="tui-space_right-1">Not registered yet?</span>
+      <a
+        tuiLink
+        routerLink="/auth/signup"
+        icon="tuiIconArrowRight"
+      >
+        Sign up
+      </a>
+    </div>
+  </form>
+</tui-island>

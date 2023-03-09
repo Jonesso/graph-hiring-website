@@ -1,0 +1,40 @@
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "@core/services/auth/auth.service";
+import {takeUntil} from "rxjs";
+import {TuiDestroyService} from "@taiga-ui/cdk";
+import {ErrorService} from "@core/services/error.service";
+import {EMAIL_REGEX} from "@shared/constants";
+
+@Component({
+  selector: 'gh-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService]
+})
+export class SignInComponent {
+  signInForm = new FormGroup({
+    email: new FormControl('', [
+      Validators.pattern(EMAIL_REGEX),
+      Validators.required
+    ]),
+    password: new FormControl('', Validators.required)
+  });
+
+  constructor(private readonly auth: AuthService,
+              private readonly errorService: ErrorService,
+              private readonly destroy$: TuiDestroyService) {
+  }
+
+  onSubmit(): void {
+    if (this.signInForm.valid) {
+      this.auth.signIn(this.signInForm.value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          error: () => this.errorService.showErrorNotification()
+        });
+    }
+  }
+
+}
