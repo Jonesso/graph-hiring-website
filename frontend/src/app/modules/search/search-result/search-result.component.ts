@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {NgDompurifySanitizer} from "@tinkoff/ng-dompurify";
 import {TUI_SANITIZER} from "@taiga-ui/core";
 
@@ -11,7 +11,8 @@ import {TUI_SANITIZER} from "@taiga-ui/core";
       provide: TUI_SANITIZER,
       useClass: NgDompurifySanitizer,
     },
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultComponent implements OnInit {
   @Input() withGraphView = true;

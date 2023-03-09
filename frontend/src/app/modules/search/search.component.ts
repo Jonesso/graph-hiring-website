@@ -1,16 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'gh-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.less']
+  styleUrls: ['./search.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit {
-
+export class SearchComponent {
   constructor() {
   }
-
-  ngOnInit(): void {
-  }
-
 }
