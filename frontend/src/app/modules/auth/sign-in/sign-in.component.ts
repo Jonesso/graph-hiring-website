@@ -5,6 +5,7 @@ import {takeUntil} from "rxjs";
 import {TuiDestroyService} from "@taiga-ui/cdk";
 import {ErrorService} from "@core/services/error.service";
 import {EMAIL_REGEX} from "@shared/constants";
+import {HeaderService} from "@modules/header/header.service";
 
 @Component({
   selector: 'gh-sign-in',
@@ -23,8 +24,10 @@ export class SignInComponent {
   });
 
   constructor(private readonly auth: AuthService,
+              private readonly header: HeaderService,
               private readonly errorService: ErrorService,
               private readonly destroy$: TuiDestroyService) {
+    header.setTitle('Sign in');
   }
 
   onSubmit(): void {

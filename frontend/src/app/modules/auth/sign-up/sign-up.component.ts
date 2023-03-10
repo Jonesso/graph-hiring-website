@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {takeUntil} from "rxjs";
 import {TuiAlertService, TuiNotification} from "@taiga-ui/core";
 import {EMAIL_REGEX} from "@shared/constants";
+import {HeaderService} from "@modules/header/header.service";
 
 @Component({
   selector: 'gh-sign-up',
@@ -27,11 +28,13 @@ export class SignUpComponent {
   });
 
   constructor(private readonly auth: AuthService,
+              private readonly header: HeaderService,
               private readonly errorService: ErrorService,
               private readonly route: ActivatedRoute,
               private readonly router: Router,
               @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
               private readonly destroy$: TuiDestroyService) {
+    header.setTitle('Sign up');
   }
 
   onSubmit(): void {

@@ -1,0 +1,22 @@
+<a
+  routerLink="/search"
+  tuiLink
+>
+  <tui-svg
+    src="tuiIconSearchLarge"
+    class="icon"
+  ></tui-svg>
+</a>
+
+<h1 class="header__title">
+  <ng-content></ng-content>
+</h1>
+
+<gh-menu *ngIf="(auth.user$ | async) as user else signInSignUp"></gh-menu>
+
+<ng-template #signInSignUp>
+  <a tuiButton routerLink="/auth/signin" size="m" appearance="outline" class="tui-space_right-3"
+     (click)="saveCurrentUrlToRedirectAfterLogin()">Sign
+    in</a>
+  <a tuiButton routerLink="/auth/signup" size="m" (click)="saveCurrentUrlToRedirectAfterLogin()">Sign up</a>
+</ng-template>

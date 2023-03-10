@@ -7,6 +7,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {AuthService} from "@core/services/auth/auth.service";
+import {HeaderModule} from "@modules/header/header.module";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {AuthService} from "@core/services/auth/auth.service";
     TuiDialogModule,
     TuiAlertModule,
     HttpClientModule,
+    HeaderModule,
   ],
   providers: [
     {
