@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {IUserDto} from "@shared/types/user/user.dto.interface";
+import {TUI_ARROW} from "@taiga-ui/kit";
+import {AuthService} from "@core/services/auth/auth.service";
 
 @Component({
   selector: 'gh-menu',
@@ -7,8 +10,12 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent {
+  @Input() user!: IUserDto;
 
-  constructor() {
+  readonly arrow = TUI_ARROW;
+  readonly defaultAvatarUrl = 'assets/default-user-avatar.svg';
+
+  constructor(public readonly auth: AuthService) {
   }
 
 }

@@ -1,1 +1,59 @@
-<p>menu works!</p>
+<tui-hosted-dropdown
+  [content]="menuItems"
+  tuiDropdownLimitWidth="min"
+>
+  <button
+    tuiButton
+    type="button"
+    shape="rounded"
+    size="m"
+    [icon]="icon"
+    [iconRight]="arrow"
+  >
+    <span class="user-name">{{user | fullName}}</span>
+  </button>
+</tui-hosted-dropdown>
+
+
+<ng-template #menuItems>
+  <tui-data-list
+    role="menu"
+    size="l"
+  >
+    <a
+      tuiOption
+      role="menuitemradio"
+      routerLinkActive
+      [routerLink]="['/', 'search', user.id]"
+    >
+      Profile settings
+    </a>
+
+    <a
+      tuiOption
+      role="menuitemradio"
+      routerLinkActive
+      [routerLink]="['/search']"
+    >
+      Search
+    </a>
+
+    <a
+      tuiOption
+      role="menuitemradio"
+      routerLinkActive
+      routerLink="."
+      (click)="auth.logOut()"
+    >
+      Logout
+    </a>
+  </tui-data-list>
+</ng-template>
+
+<ng-template #icon>
+  <tui-avatar
+    size="xs"
+    [rounded]="true"
+    [avatarUrl]="user.avatarSrc || defaultAvatarUrl"
+  ></tui-avatar>
+</ng-template>
