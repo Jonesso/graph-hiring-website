@@ -1,0 +1,5 @@
+<tui-scrollbar>
+  <gh-profile-form [disabled]="!(guard.isMyProfile$ | async)"></gh-profile-form>
+</tui-scrollbar>
+
+<gh-search-result [withGraphView]="true"></gh-search-result>

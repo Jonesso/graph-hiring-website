@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {SearchComponent} from "@modules/search/search.component";
-import {SearchResultComponent} from "@modules/search/search-result/search-result.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { SearchComponent } from '@modules/search/search.component';
+import { SearchResultComponent } from '@modules/search/search-result/search-result.component';
+import { ProfileGuard } from '@modules/profile/profile.guard';
 
 const routes: Routes = [
   {
@@ -12,6 +13,13 @@ const routes: Routes = [
         path: '',
         component: SearchResultComponent
       },
+      {
+        path: ':id',
+        loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule),
+        canActivate: [ProfileGuard],
+        canDeactivate: [ProfileGuard],
+        runGuardsAndResolvers: 'always'
+      }
     ]
   }
 ];

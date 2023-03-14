@@ -1,0 +1,68 @@
+<div class="avatar-wrapper">
+  <tui-avatar
+    [avatarUrl]="avatarSrc"
+    text="{{name}} avatar"
+    [rounded]="true"
+    size="xl"
+  ></tui-avatar>
+</div>
+
+<div class="user-info">
+  <ng-container *ngIf="_editable else notEditable">
+    <tui-primitive-textfield
+      class="user-info__rate"
+      [value]="hourlyRate ? hourlyRate.toString() : ''"
+      [postfix]="'USD' | tuiCurrency"
+    >
+      Hourly rate
+      <input
+        tuiTextfield
+        type="number"
+        (change)="onRateChange($any($event.target).value)"
+      >
+    </tui-primitive-textfield>
+
+    <div class="user-info__name">
+      <tui-primitive-textfield
+        [value]="name"
+        [tuiTextfieldCleaner]="true"
+      >
+        Your name
+        <input
+          tuiTextfield
+          type="text"
+          (change)="onChange('name', $event)"
+        >
+      </tui-primitive-textfield>
+    </div>
+
+    <div class="user-info__email" *ngIf="email">
+      <tui-primitive-textfield
+        [value]="email"
+        tuiTextfieldIcon="tuiIconMailLarge"
+        [tuiTextfieldCleaner]="true"
+      >
+        Email
+        <input
+          tuiTextfield
+          type="email"
+          (change)="onChange('email', $event)"
+        />
+      </tui-primitive-textfield>
+    </div>
+  </ng-container>
+
+  <ng-template #notEditable>
+    <tui-badge
+      status="custom"
+      size="m"
+      [value]="hourlyRate + '$'"
+      class="user-info__rate-value tui-space_bottom-1"
+    ></tui-badge>
+    <span class="user-info__name-value" *ngIf="name">{{name}}</span>
+    <span class="user-info__email-value" *ngIf="email">
+      <tui-svg src="tuiIconMailLarge" class="tui-space_right-1"></tui-svg>
+      <span>{{email}}</span>
+    </span>
+  </ng-template>
+</div>

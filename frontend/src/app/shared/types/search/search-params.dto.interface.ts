@@ -10,7 +10,7 @@ export enum Languages {
 }
 
 export enum WorkType {
-  Office = 'Office',
-  Home = 'Home',
-  Both = 'Both'
+  Onsite = 'Onsite',
+  Remote = 'Remote',
+  Hybrid = 'Hybrid'
 }

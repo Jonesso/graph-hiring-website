@@ -1,0 +1,120 @@
+<tui-island
+  size="l"
+  textAlign="center"
+  *ngIf="(profileUser$ | async) as user"
+>
+  <div class="tui-island__content">
+    <figure class="tui-island__figure">
+      <div class="some-figure"></div>
+    </figure>
+
+    <gh-profile-info [avatarSrc]="user.avatarSrc"
+                     [name]="user | fullName"
+                     [hourlyRate]="user.hourlyRate"
+                     [email]="user.email"
+                     [hourlyRateFormControl]="$any(form).controls['hourlyRate']"
+                     [nameFormControl]="$any(form).controls['firstName']"
+                     [emailFormControl]="$any(form).controls['email']"
+                     [editable]="!_disabled"
+                     (infoChange)="onProfileInfoChange($event)"></gh-profile-info>
+
+    <div class="tui-space_top-5" *ngIf="user.about">
+      <h3 class="tui-island__title">About me</h3>
+      <ng-container *ngIf="!_disabled; else nonEditableAbout">
+        <form
+          [formGroup]="form"
+          class="user-info__about"
+        >
+          <tui-text-area
+            formControlName="about"
+          ></tui-text-area>
+        </form>
+      </ng-container>
+    </div>
+  </div>
+</tui-island>
+
+<form [formGroup]="form" class="search-form">
+  <h3 class="tui-form__header">Keywords</h3>
+  <tui-input-tag
+    class="b-form"
+    [tuiTextfieldLabelOutside]="true"
+    formControlName="keywords"
+  >
+    Keywords
+  </tui-input-tag>
+
+  <h3 class="tui-form__header">Phone</h3>
+  <tui-input-phone formControlName="phone">
+    Phone number
+    <input
+      tuiTextfield
+      autocomplete="tel"
+    />
+  </tui-input-phone>
+
+  <h3 class="tui-form__header">Experience</h3>
+  <div class="tui-form__row">
+    <tui-input-slider
+      formControlName="experience"
+      [min]="0"
+      [max]="100"
+      [segments]="1"
+    >
+      Years
+    </tui-input-slider>
+  </div>
+
+  <h3 class="tui-form__header">Languages</h3>
+  <tui-multi-select
+    formControlName="languages"
+    [tuiTextfieldLabelOutside]="true"
+    [editable]="false"
+  >
+    Languages
+    <tui-data-list-wrapper
+      *tuiDataList
+      tuiMultiSelectGroup
+      [items]="languagesNames"
+    ></tui-data-list-wrapper>
+  </tui-multi-select>
+
+  <h3 class="tui-form__header">Work type</h3>
+  <div
+    tuiGroup
+    class="tui-form__row"
+    [adaptive]="true"
+    [collapsed]="true"
+  >
+    <tui-radio-block
+      contentAlign="right"
+      formControlName="workType"
+      [item]="WorkType.Onsite"
+      size="l"
+    >
+      {{WorkType.Onsite}}
+    </tui-radio-block>
+    <tui-radio-block
+      contentAlign="right"
+      formControlName="workType"
+      [item]="WorkType.Remote"
+      size="l"
+    >
+      {{WorkType.Remote}}
+    </tui-radio-block>
+    <tui-radio-block
+      contentAlign="right"
+      formControlName="workType"
+      [item]="WorkType.Hybrid"
+      size="l"
+    >
+      {{WorkType.Hybrid}}
+    </tui-radio-block>
+  </div>
+</form>
+
+<ng-template #nonEditableAbout>
+  <ng-container *tuiLet="(profileUser$ | async) as user">
+    <p class="user-info__about-value">{{user?.about}}</p>
+  </ng-container>
+</ng-template>

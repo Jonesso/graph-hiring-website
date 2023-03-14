@@ -61,7 +61,7 @@
       </tui-multi-select>
     </div>
 
-    <h3 class="tui-form__header">Works From</h3>
+    <h3 class="tui-form__header">Work place</h3>
     <div
       tuiGroup
       class="tui-form__row"
@@ -71,26 +71,26 @@
       <tui-radio-block
         contentAlign="right"
         formControlName="workType"
-        [item]="WorkType.Office"
+        [item]="WorkType.Onsite"
         size="l"
       >
-        {{WorkType.Office}}
+        {{WorkType.Onsite}}
       </tui-radio-block>
       <tui-radio-block
         contentAlign="right"
         formControlName="workType"
-        [item]="WorkType.Home"
+        [item]="WorkType.Remote"
         size="l"
       >
-        {{WorkType.Home}}
+        {{WorkType.Remote}}
       </tui-radio-block>
       <tui-radio-block
         contentAlign="right"
         formControlName="workType"
-        [item]="WorkType.Both"
+        [item]="WorkType.Hybrid"
         size="l"
       >
-        {{WorkType.Both}}
+        {{WorkType.Hybrid}}
       </tui-radio-block>
     </div>
   </form>

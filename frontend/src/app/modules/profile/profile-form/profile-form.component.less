@@ -1,0 +1,25 @@
+@control-gap: 8px;
+
+:host {
+  display: flex;
+  justify-content: space-between;
+}
+
+tui-island {
+  position: relative;
+  width: 480px;
+  min-width: 470px;
+  margin-right: 18px;
+}
+
+.user-info__about-value {
+  text-align: left;
+}
+
+.search-form {
+  display: grid;
+  align-items: center;
+  grid-template-columns: max-content 1fr;
+  row-gap: @control-gap + 4px;
+  column-gap: @control-gap + 8px;
+}

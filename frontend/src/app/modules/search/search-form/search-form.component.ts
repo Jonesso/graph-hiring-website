@@ -1,13 +1,16 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Languages, WorkType} from "@shared/types/search-params.dto.interface";
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Languages, WorkType } from '@shared/types/search/search-params.dto.interface';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'gh-search-form',
   templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.less']
+  styleUrls: ['./search-form.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService]
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnInit {
   readonly WorkType = WorkType;
   readonly languagesNames = Object.values(Languages);
 
@@ -22,10 +25,15 @@ export class SearchFormComponent {
     relationTypes: new FormControl([]),
     experience: new FormControl(),
     languages: new FormControl(),
-    workType: new FormControl(`${WorkType.Office}`)
+    workType: new FormControl(`${WorkType.Onsite}`)
   });
 
-  constructor() {
+  constructor(private readonly destroy$: TuiDestroyService) {
+
+  }
+
+  ngOnInit() {
+    this.resetForm();
   }
 
   resetForm(): void {
@@ -36,7 +44,7 @@ export class SearchFormComponent {
       relationTypes: [],
       experience: 0,
       languages: [],
-      workType: `${WorkType.Office}`
+      workType: `${WorkType.Onsite}`
     });
   }
 
