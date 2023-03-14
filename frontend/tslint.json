@@ -97,6 +97,10 @@
       "parameter"
     ],
     "use-isnan": true,
+    "whitespace": [
+      true,
+      "check-module"
+    ],
     "quotemark": [
       true,
       "single"
