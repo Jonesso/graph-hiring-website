@@ -1,0 +1,16 @@
+:host(.not-authenticated-user) {
+  --row-height: 226px;
+}
+
+.user-cards__wrapper {
+  --row-height: 278px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 24px;
+  min-height: var(--row-height);
+}
+
+.loading-opacity {
+  opacity: .3;
+}

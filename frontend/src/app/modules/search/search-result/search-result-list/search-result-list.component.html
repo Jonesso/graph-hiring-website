@@ -1,0 +1,14 @@
+<ng-container *ngIf="users">
+  <ng-container *ngIf="users.length else noUsers">
+    <tui-loader [showLoader]="isLoading">
+      <div class="user-cards__wrapper" [class.not-authenticated-user]="isUserUnauthorized">
+        <gh-user-card *ngFor="let user of users" [user]="user"
+                      [class.loading-opacity]="isLoading"></gh-user-card>
+      </div>
+    </tui-loader>
+  </ng-container>
+
+  <ng-template #noUsers>
+    <span class="pn-hint">No users satisfying the request</span>
+  </ng-template>
+</ng-container>

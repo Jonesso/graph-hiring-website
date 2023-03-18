@@ -1,0 +1,89 @@
+<tui-badge
+  *ngIf="user.hourlyRate"
+  status="primary"
+  size="m"
+  [value]="user.hourlyRate + '$'"
+  class="user-info__rate-value tui-space_bottom-1"
+></tui-badge>
+
+<div class="user" *tuiLet="user | fullName as userName">
+  <tui-avatar
+    [avatarUrl]="avatarSrc"
+    text="{{userName}}'s avatar"
+    [rounded]="true"
+    size="xl"
+  ></tui-avatar>
+  <a
+    [routerLink]="['/', 'search', user.id]"
+    class="user-name tui-space_left-5"
+  >
+    {{userName}}
+  </a>
+</div>
+
+<div class="user-info">
+  <tui-svg src="tuiIconMailLarge" class="tui-space_right-1"></tui-svg>
+  {{user.email}}
+</div>
+
+<div class="user-info">
+  <tui-svg src="assets/icons/users.svg" class="tui-space_right-1"></tui-svg>
+  Network size: <span class="tui-space_left-1">{{user.networkSize}}</span>
+</div>
+
+
+<ng-container *ngIf="auth.user$ | async as authUser">
+  <div class="buttons tui-space_top-2" *ngIf="authUser.id !== user.id else itsCurrentUser">
+    <button
+      tuiButton
+      type="button"
+      appearance="outline"
+      size="m"
+      icon="assets/icons/user-plus.svg"
+      (click)="openCreateRelationDialog()"
+    >
+      Create relation
+    </button>
+  </div>
+
+  <ng-template #itsCurrentUser>
+    <span class="its-you-hint tui-space_top-2">✨ It's you ✨</span>
+  </ng-template>
+</ng-container>
+
+<div class="right-icons">
+  <button
+    *ngIf="user.relationsCount > 0"
+    tuiIconButton
+    type="button"
+    appearance="flat"
+    size="m"
+    icon="assets/icons/user-check.svg"
+    [tuiHint]="yourRelationsTooltip"
+    tuiHintDirection="left"
+    (click)="openEditRelationsDialog()"
+  ></button>
+
+  <ng-container *ngIf="profile.selectedUser$ | async as selectedUser">
+    <button
+      *ngIf="!(profileGuard.isMyProfile$ | async) && selectedUser.id !== user.id && user.relationsWithOriginCount !== 0"
+      tuiIconButton
+      type="button"
+      appearance="flat"
+      size="m"
+      icon="assets/icons/relations.svg"
+      [tuiHint]="otherUserRelationsTooltip"
+      tuiHintDirection="left"
+      (click)="openRelationsListDialog()"
+    ></button>
+
+    <ng-template #otherUserRelationsTooltip>
+      {{selectedUser.firstName}}'s and {{user.firstName}}'s relations
+    </ng-template>
+  </ng-container>
+</div>
+
+<ng-template #yourRelationsTooltip>
+  Yours and {{user.firstName}}'s relations
+</ng-template>
+

@@ -1,0 +1,68 @@
+@import '~src/style/shared/typography';
+@import '~src/style/shared/colors';
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
+:host {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding: 22px 52px 22px 17px;
+  border: 1px solid @accent;
+  border-radius: 4px;
+  background-color: @primary;
+  .shadow();
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  margin-bottom: auto;
+
+  app-avatar {
+    margin-right: 14px;
+  }
+
+  &-name {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    .get-typography(@font-weight: @font-weight-bold, @font-size: @font-size-xl);
+    color: @accent;
+    text-decoration: none;
+
+    &:hover {
+      color: darken(@accent, 10%);
+    }
+  }
+
+  &-info {
+    display: flex;
+    align-items: center;
+    .get-typography(@font-size: @font-size-m);
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 9px;
+}
+
+.right-icons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 17px 8px 17px 4px;
+  gap: 4px;
+  box-sizing: border-box;
+}
+
+.its-you-hint {
+  .text-body-m();
+}
