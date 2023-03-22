@@ -22,8 +22,7 @@ import { RelationsService } from '@modules/search/relations.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultComponent implements OnInit {
-  //  TODO false - ?
-  @Input() withGraphView = true;
+  @Input() withGraphView = false;
 
   readonly iconSrc = 'assets/icons/diagram.svg';
 

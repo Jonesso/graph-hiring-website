@@ -19,7 +19,7 @@ export const userListItemsDtoMock: IUserListItem[] = [
     relationsCount: 20,
     relationsWithOriginCount: 4,
     networkSize: 3,
-    intermediate: true,
+    intermediate: false,
   },
   {
     avatarSrc: 'https://i.pravatar.cc/128?u=user%60',
@@ -60,7 +60,7 @@ export const userListItemsDtoMock: IUserListItem[] = [
     intermediate: true,
   },
   {
-    avatarSrc: '',
+    avatarSrc: 'assets/default-user-avatar.svg',
     id: '246',
     createdAt: '2023-03-16',
     email: 'jane.doe@example.email',

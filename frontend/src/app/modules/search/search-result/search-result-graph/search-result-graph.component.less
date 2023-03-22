@@ -1,0 +1,27 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
+:host {
+  display: block;
+}
+
+gh-network-graph {
+  display: block;
+  width: 100%;
+  min-height: 700px;
+}
+
+:host ::ng-deep .node,
+:host ::ng-deep .edge {
+  cursor: pointer;
+  outline: none;
+
+  &.cdk-keyboard-focused {
+    outline: auto;
+  }
+}
+
+.portal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}

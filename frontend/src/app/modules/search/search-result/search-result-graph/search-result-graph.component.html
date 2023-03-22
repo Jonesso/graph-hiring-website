@@ -1,0 +1,78 @@
+<gh-network-graph *ngIf="ngxGraph"
+                  [draggingEnabled]="true"
+                  [layout]="layout"
+                  [links]="ngxGraph.edges"
+                  [nodes]="ngxGraph.nodes"
+                  [panToNode$]="selectedUserId$"
+                  [minZoomLevel]=".5"
+                  [maxZoomLevel]="1.5" xmlns:svg="http://www.w3.org/2000/svg">
+
+  <ng-template #nodeTemplate let-node>
+    <svg:g ghUserNode
+           aria-label="Open {{node | fullName}}'s Detailed Information"
+           aria-haspopup="true"
+           [node]="node"
+           [isSelected]="node.id === (selectedUserId$ | async)"
+           [avatarUrl]="node.avatarSrc"
+           (nodeClick)="openNodeOverlay(node)"
+           #overlayOrigin="cdkOverlayOrigin"
+           cdkOverlayOrigin/>
+
+    <ng-template cdkConnectedOverlay
+                 [cdkConnectedOverlayOpen]="nodeWithOverlay?.id === node.id"
+                 [cdkConnectedOverlayOrigin]="overlayOrigin"
+                 (overlayOutsideClick)="hideNodeUserCardIfClickedOutside($event)">
+      <gh-user-card @nodeOverlayFade
+                    cdkTrapFocus
+                    cdkTrapFocusAutoCapture
+                    cdkFocusInitial
+                    class="portal"
+                    [user]="node"></gh-user-card>
+    </ng-template>
+  </ng-template>
+
+  <ng-template #linkTemplate
+               let-link>
+    <svg:g *ngIf="link | nodesByEdge:ngxGraph.nodes as edgeNodes"
+           class="edge"
+           focusable="true"
+           tabindex="0"
+           role="button"
+           attr.aria-label="Open {{edgeNodes[0] | fullName}} and {{edgeNodes[1] | fullName}} Relations List"
+           aria-haspopup="true"
+           cdkMonitorElementFocus
+           (keydown.enter)="openRelations(link)"
+           (keydown.space)="openRelations(link)"
+           (click)="openRelations(link)">
+      <svg:marker id="arrow_{{link.id}}" viewBox="0 -5 10 10"
+                  [attr.refX]="NODE_SIZE / 2 + 10"
+                  [attr.refY]="link.refY"
+                  markerWidth="5"
+                  markerHeight="5"
+                  [attr.orient]="link.reversed ? 'auto-start-reverse' : 'auto'">
+        <svg:path d="M0,-5L10,0L0,5" stroke-width="2" fill="#666" class="arrow-head"/>
+      </svg:marker>
+      <svg:marker id="arrow-reverse_{{link.id}}" viewBox="0 -5 10 10"
+                  [attr.refX]="NODE_SIZE / 2 + 10"
+                  [attr.refY]="-(link.refY || 0)"
+                  markerWidth="5"
+                  markerHeight="5"
+                  orient="auto-start-reverse">
+        <svg:path d="M0,-5L10,0L0,5" stroke-width="2" fill="#666" class="arrow-head"/>
+      </svg:marker>
+      <svg:path [attr.d]="link.line" id="_{{link.id}}" class="line" stroke-width="2"
+                [attr.marker-start]="link.reversed
+                  ? 'url(#arrow_' + link.id + ')'
+                  : (link.type | isBidirectional) ? 'url(#arrow-reverse_' + link.id + ')' : null"
+                [attr.marker-end]="!link.reversed
+                  ? 'url(#arrow_' + link.id + ')'
+                  : (link.type | isBidirectional) ? 'url(#arrow-reverse_' + link.id + ')' : null"/>
+      <svg:text class="edge-label" text-anchor="middle">
+        <svg:textPath class="text-path" attr.href="#_{{link.id}}"
+                      dominant-baseline="text-after-edge" startOffset="50%">
+          {{link.type | relationType}}
+        </svg:textPath>
+      </svg:text>
+    </svg:g>
+  </ng-template>
+</gh-network-graph>

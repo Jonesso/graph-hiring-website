@@ -1,0 +1,27 @@
+@import '~src/style/shared/colors';
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
+tui-avatar {
+  width: 40px;
+}
+
+.avatar-backdrop {
+  fill: lighten(@primary, 10%);
+}
+
+.intermediate-overlay {
+  fill: #fff;
+  opacity: .75;
+}
+
+.node.selected .avatar-backdrop {
+  fill: @primary;
+}
+
+gh-user-card {
+  .shadow();
+
+  ::ng-deep .user {
+    margin-bottom: 26px;
+  }
+}
