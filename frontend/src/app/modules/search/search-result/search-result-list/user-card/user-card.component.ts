@@ -55,6 +55,7 @@ export class UserCardComponent implements OnInit {
             label: 'Create relation',
             data: {fromUser, toUser: this.user},
             dismissible: true,
+            size: 'auto',
           }
         ).pipe(takeUntil(this.destroy$))
           .subscribe()

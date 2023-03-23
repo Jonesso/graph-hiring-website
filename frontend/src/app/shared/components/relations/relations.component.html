@@ -1,0 +1,86 @@
+<div class="relation">
+  <gh-profile-info
+    [avatarSrc]="fromUser.avatarSrc || DEFAULT_AVATAR_URL"
+    [name]="fromUser | fullName"
+    [email]="fromUser.email"
+    [hourlyRate]="fromUser.hourlyRate"
+  ></gh-profile-info>
+
+  <tui-scrollbar>
+    <ul class="arrows-wrapper" #arrowsWrapper>
+      <ng-container *ngIf="relations.length else requestCreation">
+        <li *ngFor="let request of relations; let i = index">
+          <button class="arrow-wrapper"
+                  #arrowWrapper
+                  (click)="onRelationSelect(request, arrowWrapper)">
+          <span class="arrow"
+                [class.arrow--selected]="request.id === _selectedRelationId"
+                [class.arrow--right]="!(request.type | isBidirectional) && request.fromUserId === fromUser.id"
+                [class.arrow--left]="!(request.type | isBidirectional) && request.fromUserId !== fromUser.id">
+            <span class="arrow-label">{{request.type | relationType}}</span>
+          </span>
+          </button>
+        </li>
+      </ng-container>
+      <ng-template #requestCreation>
+        <div class="arrow-wrapper">
+          <div class="arrow arrow--selected"
+               [class.arrow--right]="form.value.type && !(form.value.type | isBidirectional)">
+            <span class="arrow-label">{{form.value.type ? (form.value.type | relationType) : 'Choose type'}}</span>
+          </div>
+        </div>
+      </ng-template>
+    </ul>
+  </tui-scrollbar>
+
+  <gh-profile-info
+    [avatarSrc]="toUser.avatarSrc || DEFAULT_AVATAR_URL"
+    [name]="toUser | fullName"
+    [email]="toUser.email"
+    [hourlyRate]="toUser.hourlyRate"
+  ></gh-profile-info>
+</div>
+
+
+<form class="form" id="relationForm" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="showForm">
+  <tui-select formControlName="type">
+    Relation type
+    <tui-data-list *tuiDataList>
+      <button
+        *ngFor="let entry of RelationType | keyvalue"
+        tuiOption
+        [value]="entry.value"
+      >
+        {{ entry.value | relationType }}
+      </button>
+    </tui-data-list>
+  </tui-select>
+
+  <tui-input-date-range
+    class="tui-space_top-4"
+    [formControl]="periodControl"
+    [tuiTextfieldCleaner]="true"
+    (focusout)="patchDateRangeIntoForm()"
+  >
+    Period
+  </tui-input-date-range>
+
+  <tui-text-area
+    formControlName="description"
+  >
+    Description
+  </tui-text-area>
+
+  <ng-container *ngIf="showComment">
+    <tui-text-area
+      formControlName="comment"
+      [rows]="5"
+    >
+      Comment
+    </tui-text-area>
+  </ng-container>
+
+  <div class="actions-wrapper">
+    <ng-content></ng-content>
+  </div>
+</form>

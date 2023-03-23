@@ -1,20 +1,27 @@
-<div class="buttons">
+<gh-relations [showForm]="true"
+              [fromUser]="data.fromUser"
+              [toUser]="data.toUser"
+              (formSubmit)="onSubmit($event)"
+              class="tui-space_top-6"
+              #relations>
+
   <button
     tuiButton
     appearance="secondary"
     type="button"
-    size="m"
+    size="l"
     (click)="onCancel()"
   >
-    Cancel
+    Close
   </button>
 
   <button
     tuiButton
-    type="button"
-    size="m"
-    (click)="onSubmit()"
+    type="submit"
+    size="l"
+    [icon]="icon"
+    [disabled]="relations.form.invalid"
   >
     Create relationship
   </button>
-</div>
+</gh-relations>

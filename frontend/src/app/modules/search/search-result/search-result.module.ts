@@ -24,6 +24,7 @@ import { NodeHTMLIdPipe } from './search-result-graph/node-html-id.pipe';
 import { NodesByEdgePipe } from './search-result-graph/nodes-by-edge.pipe';
 import { IsBidirectionalModule } from '@shared/pipes/is-bidirectional/is-bidirectional.module';
 import { RelationTypeModule } from '@shared/pipes/relation-type/relation-type.module';
+import { RelationsModule } from '@shared/components/relations/relations.module';
 
 const TUI_MODULES = [
   TuiTabsModule,
@@ -59,6 +60,7 @@ const TUI_MODULES = [
     FullNameModule,
     IsBidirectionalModule,
     RelationTypeModule,
+    RelationsModule,
     TUI_MODULES,
   ],
   exports: [SearchResultComponent]
