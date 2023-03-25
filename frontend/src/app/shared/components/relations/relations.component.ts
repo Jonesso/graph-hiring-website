@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RelationType } from '@shared/types/relations/relation-type.enum';
 import { IRelationRequestUserDto } from '@shared/types/relations/relation-request-user.dto.interface';
@@ -17,7 +26,7 @@ import { CdkScrollable } from '@angular/cdk/overlay';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class RelationsComponent {
+export class RelationsComponent implements OnInit {
   RelationType = RelationType;
   DEFAULT_AVATAR_URL = DEFAULT_AVATAR_URL;
 
@@ -39,8 +48,10 @@ export class RelationsComponent {
   @Input() set disabled(isDisabled: boolean) {
     if (isDisabled) {
       this.form.disable();
+      this.periodControl.disable();
     } else {
       this.form.enable();
+      this.periodControl.enable();
     }
   }
 
@@ -65,9 +76,17 @@ export class RelationsComponent {
 
   @ViewChild('arrowsWrapper', {read: CdkScrollable, static: true}) arrowsWrapper: CdkScrollable | null = null;
 
+  ngOnInit() {
+    if (this.showForm) {
+      this.patchFormDatesIntoPeriodControl();
+    }
+  }
+
   onRelationSelect(request: IRelationshipDto, arrowWrapperEl: HTMLElement): void {
     this.form.reset(request, {emitEvent: false});
     this.relationSelect.next(request);
+
+    this.patchFormDatesIntoPeriodControl();
 
     if (!this.arrowsWrapper) {
       console.error('Something went wrong: can not scroll to clicked relation');
@@ -107,5 +126,13 @@ export class RelationsComponent {
       startAt: fromValue,
       endAt: toValue,
     });
+  }
+
+  patchFormDatesIntoPeriodControl(): void {
+    const formValues = this.form.value;
+    const fromValue = formValues.startAt;
+    const toValue = formValues.endAt;
+
+    this.periodControl.patchValue(new TuiDayRange(TuiDay.jsonParse(fromValue), TuiDay.jsonParse(toValue)));
   }
 }

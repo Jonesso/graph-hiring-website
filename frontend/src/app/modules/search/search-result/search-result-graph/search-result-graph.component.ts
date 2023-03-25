@@ -39,8 +39,6 @@ export class SearchResultGraphComponent {
   readonly NODE_SIZE = GRAPH.NODE_SIZE;
   nodeWithOverlay: IUserListItem | null = null;
 
-  showUserCard = false;
-
   @Input() set graph(newGraph: IGraphDto | null) {
     if (!newGraph) {
       this._ngxGraph = null;
@@ -114,12 +112,10 @@ export class SearchResultGraphComponent {
 
   openNodeOverlay(node: IUserListItem): void {
     this.nodeWithOverlay = node;
-    this.showUserCard = true;
   }
 
   closeNodeOverlay(): void {
     this.nodeWithOverlay = null;
-    this.showUserCard = false;
   }
 
   hideNodeUserCardIfClickedOutside(event: MouseEvent): void {

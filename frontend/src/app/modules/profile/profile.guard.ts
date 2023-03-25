@@ -5,6 +5,7 @@ import { ProfileService } from '@modules/profile/profile.service';
 import { AuthService } from '@core/services/auth/auth.service';
 import { ProfileComponent } from '@modules/profile/profile.component';
 import { SearchService } from '@modules/search/search.service';
+import { RelationsService } from '@modules/search/relations.service';
 
 const PROFILE_URL_REGEX = new RegExp(
   'search/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
@@ -19,7 +20,8 @@ export class ProfileGuard implements CanActivate, CanDeactivate<ProfileComponent
 
   constructor(private readonly auth: AuthService,
               private readonly profile: ProfileService,
-              private readonly search: SearchService,) {
+              private readonly search: SearchService,
+              private readonly relations: RelationsService,) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -31,6 +33,7 @@ export class ProfileGuard implements CanActivate, CanDeactivate<ProfileComponent
     return this.search.getUser(route.params['id'])
       .pipe(
         tap(user => {
+          this.relations.getUserRelationTypes(user.id).subscribe();
           this.profile.setSelectedUser(user);
         }),
         mapTo(true),

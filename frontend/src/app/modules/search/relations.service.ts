@@ -28,7 +28,7 @@ export class RelationsService {
   }
 
   getRelationsBetweenUsers(userId1: string, userId2: string): Observable<IRelationshipDto[]> {
-    return of(relationshipDtoMock);
+    return of(relationshipDtoMock.slice(0, 3));
 
     // TODO uncomment when backend's done
     // return this.http.get<IRelationshipDto[]>(

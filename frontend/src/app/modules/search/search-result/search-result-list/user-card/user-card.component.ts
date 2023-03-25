@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Inject,
+  Injector,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { IUserListItem } from '@shared/types/user/user-list-item.dto.interface';
 import { DEFAULT_AVATAR_URL } from '@shared/constants';
 import { AuthService } from '@core/services/auth/auth.service';
@@ -27,6 +36,8 @@ import {
 })
 export class UserCardComponent implements OnInit {
   @Input() user!: IUserListItem;
+
+  @Output() popupOpen = new EventEmitter<void>();
 
   avatarSrc = DEFAULT_AVATAR_URL;
 
@@ -79,20 +90,25 @@ export class UserCardComponent implements OnInit {
         of(selectedUser),
         this.relations.getRelationsBetweenUsers(selectedUser.id, this.user.id)
       ]))
-    ).subscribe(([selectedUser, relations]) => this.dialogService.open(
-        new PolymorpheusComponent(RelationsListDialogComponent, this.injector),
-        {
-          label: `${selectedUser.firstName}'s and ${this.user.firstName}'s relations`,
-          data: {
-            fromUser: selectedUser,
-            toUser: this.user,
-            relations,
-            edit
-          },
-          dismissible: true,
-        }
-      ).pipe(takeUntil(this.destroy$))
-        .subscribe()
+    ).subscribe(([selectedUser, relations]) => {
+        this.dialogService.open(
+          new PolymorpheusComponent(RelationsListDialogComponent, this.injector),
+          {
+            label: `${edit ? 'Yours' : selectedUser.firstName + '\'s'} and ${this.user.firstName}'s relations`,
+            data: {
+              fromUser: selectedUser,
+              toUser: this.user,
+              relations,
+              edit
+            },
+            dismissible: true,
+            size: 'auto',
+          }
+        )
+          .subscribe();
+
+        this.popupOpen.emit();
+      }
     );
   }
 

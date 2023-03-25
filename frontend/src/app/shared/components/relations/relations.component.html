@@ -42,7 +42,13 @@
 </div>
 
 
-<form class="form" id="relationForm" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="showForm">
+<form
+  *ngIf="showForm"
+  class="form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+
   <tui-select formControlName="type">
     Relation type
     <tui-data-list *tuiDataList>
@@ -57,7 +63,6 @@
   </tui-select>
 
   <tui-input-date-range
-    class="tui-space_top-4"
     [formControl]="periodControl"
     [tuiTextfieldCleaner]="true"
     (focusout)="patchDateRangeIntoForm()"
@@ -72,12 +77,19 @@
   </tui-text-area>
 
   <ng-container *ngIf="showComment">
-    <tui-text-area
-      formControlName="comment"
-      [rows]="5"
-    >
-      Comment
-    </tui-text-area>
+    <div>
+      <tui-text-area
+        formControlName="comment"
+        [rows]="5"
+      >
+        Comment
+      </tui-text-area>
+      <tui-error
+        formControlName="comment"
+        [error]="[] | tuiFieldError | async"
+      >
+      </tui-error>
+    </div>
   </ng-container>
 
   <div class="actions-wrapper">

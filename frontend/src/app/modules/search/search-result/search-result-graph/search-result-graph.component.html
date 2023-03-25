@@ -27,7 +27,9 @@
                     cdkTrapFocusAutoCapture
                     cdkFocusInitial
                     class="portal"
-                    [user]="node"></gh-user-card>
+                    [user]="node"
+                    (popupOpen)="closeNodeOverlay()"
+      ></gh-user-card>
     </ng-template>
   </ng-template>
 

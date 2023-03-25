@@ -1,20 +1,35 @@
-<div class="buttons">
+<gh-relations
+  *tuiLet="(relationsFacade.selected$ | async) as selected"
+  [showForm]="!!selected"
+  [showComment]="data.edit ? !(isFormEqualsToInitial$ | async) : false"
+  [fromUser]="data.fromUser"
+  [toUser]="data.toUser"
+  [relations]="data.relations"
+  [selectedRelationId]="selected?.id"
+  (relationSelect)="relationsFacade.select($event)"
+  (formSubmit)="onSubmit($event)"
+  [disabled]="!data.edit"
+  #relations
+>
+
   <button
     tuiButton
     appearance="secondary"
     type="button"
-    size="m"
+    size="l"
     (click)="onCancel()"
   >
-    Cancel
+    Close
   </button>
 
   <button
+    *ngIf="!!data.edit"
     tuiButton
-    type="button"
-    size="m"
-    (click)="onSubmit()"
+    type="submit"
+    size="l"
+    [icon]="icon"
+    [disabled]="!data.edit || (isFormEqualsToInitial$ | async) || relations.form.invalid"
   >
     Send request
   </button>
-</div>
+</gh-relations>
