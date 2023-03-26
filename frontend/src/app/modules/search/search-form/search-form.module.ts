@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SearchFormComponent} from "./search-form.component";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SearchFormComponent } from './search-form.component';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -9,8 +9,8 @@ import {
   TuiHintModule,
   TuiScrollbarModule,
   TuiTextfieldControllerModule
-} from "@taiga-ui/core";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+} from '@taiga-ui/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiDataListWrapperModule,
   TuiFieldErrorPipeModule,
@@ -19,8 +19,10 @@ import {
   TuiInputSliderModule,
   TuiMultiSelectModule,
   TuiRadioBlockModule,
-  TuiSelectModule
-} from "@taiga-ui/kit";
+  TuiSelectModule,
+  TuiSliderModule
+} from '@taiga-ui/kit';
+import { RelationTypeModule } from '@shared/pipes/relation-type/relation-type.module';
 
 
 const TUI_MODULES = [
@@ -53,6 +55,8 @@ const TUI_MODULES = [
     FormsModule,
     ReactiveFormsModule,
     TUI_MODULES,
+    TuiSliderModule,
+    RelationTypeModule,
   ]
 })
 export class SearchFormModule {

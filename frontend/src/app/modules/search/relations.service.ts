@@ -3,7 +3,7 @@ import { BehaviorSubject, distinctUntilChanged, finalize, Observable, of, tap } 
 import { RelationType } from '@shared/types/relations/relation-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { UrlBuilderService } from '@core/services/url-builder/url-builder.service';
-import { RELATIONSHIPS_PATH, USER_RELATION_TYPES_PATH } from '@shared/routes/relationships';
+import { RELATIONSHIPS_PATH } from '@shared/routes/relationships';
 import { IGraphDto } from '@shared/types/relations/graph.dto.interface';
 import { IRelationshipDto } from '@shared/types/relations/relationship.dto.interface';
 import { IGraphSearchParamsDto } from '@shared/types/relations/graph-search-params.dto.interface';
@@ -64,16 +64,22 @@ export class RelationsService {
   }
 
   getUserRelationTypes(userId: string): Observable<RelationType[]> {
-    return this.http.get<RelationType[]>(
-      new UrlBuilderService()
-        .toApi()
-        .withPostfix(RELATIONSHIPS_PATH)
-        .withPostfix(USER_RELATION_TYPES_PATH)
-        .withPostfix(userId)
-        .build(),
-    ).pipe(
-      tap(relationTypes => this.userFirstLevelRelationTypes.next(relationTypes))
-    );
+    return of([RelationType.Teammates, RelationType.StudiedWith, RelationType.SubordinateTo])
+      .pipe(
+        tap(relationTypes => this.userFirstLevelRelationTypes.next(relationTypes))
+      );
+
+    // TODO uncomment when backend's done
+    // return this.http.get<RelationType[]>(
+    //   new UrlBuilderService()
+    //     .toApi()
+    //     .withPostfix(RELATIONSHIPS_PATH)
+    //     .withPostfix(USER_RELATION_TYPES_PATH)
+    //     .withPostfix(userId)
+    //     .build(),
+    // ).pipe(
+    //   tap(relationTypes => this.userFirstLevelRelationTypes.next(relationTypes))
+    // );
   }
 
   updateRelation(id: string, patchDto: IUpdateRelationshipDto): Observable<IRelationshipDto> {

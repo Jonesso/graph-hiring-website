@@ -29,6 +29,43 @@
       [pluralize]="pluralize"
     ></tui-input-range>
 
+    <ng-container *ngIf="(profile.selectedUser$ | async) !== null">
+      <h3 class="tui-form__header">Network size</h3>
+      <input
+        tuiSlider
+        formControlName="networkSize"
+        type="range"
+        size="m"
+        [min]="1"
+        [max]="3"
+        [step]="1"
+      />
+      <div class="ticks-labels">
+        <button
+          *ngFor="let label of [1, 2, 3]"
+          type="button"
+          class="tick-label"
+          (click)="patchNetworkSizeValue(label)"
+        >
+          {{ label }}
+        </button>
+      </div>
+
+      <h3 class="tui-form__header">Relation types</h3>
+      <tui-multi-select formControlName="relationTypes">
+        Relation type
+        <tui-data-list *tuiDataList>
+          <button
+            *ngFor="let relationType of relations.userFirstLevelRelationTypes$ | async"
+            tuiOption
+            [value]="relationType"
+          >
+            {{ relationType | relationType }}
+          </button>
+        </tui-data-list>
+      </tui-multi-select>
+    </ng-container>
+
     <h3 class="tui-form__header">Experience</h3>
     <div class="tui-form__row">
       <tui-input-slider
