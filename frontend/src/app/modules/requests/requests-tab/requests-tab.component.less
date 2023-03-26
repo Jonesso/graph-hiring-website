@@ -1,0 +1,19 @@
+@import '~src/style/shared/variables';
+@import '~src/style/shared/colors';
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
+.relation-requests-wrapper {
+  max-height: calc(100vh - (2 * @body-padding) - @header-height - @nav-bar-height);
+}
+
+gh-relations {
+  padding: 24px;
+
+  &:first-child {
+    margin-top: @relation-requests-gap;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: @relation-requests-gap;
+  }
+}

@@ -42,6 +42,15 @@
       tuiOption
       role="menuitemradio"
       routerLinkActive
+      [routerLink]="['/requests']"
+    >
+      Relation requests
+    </a>
+
+    <a
+      tuiOption
+      role="menuitemradio"
+      routerLinkActive
       routerLink="."
       (click)="auth.logOut()"
     >

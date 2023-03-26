@@ -1,0 +1,32 @@
+<div class="relations-list">
+  <tui-tabs class="tabs">
+    <a
+      tuiTab
+      routerLinkActive
+      [routerLink]="RelationRequestType.ToMe"
+      [replaceUrl]="true"
+    >
+      To me
+    </a>
+
+    <a
+      tuiTab
+      routerLinkActive
+      [routerLink]="RelationRequestType.FromMe"
+      [replaceUrl]="true"
+    >
+      From me
+    </a>
+
+    <a
+      tuiTab
+      routerLinkActive
+      [routerLink]="RelationRequestType.Declined"
+      [replaceUrl]="true"
+    >
+      Declined
+    </a>
+  </tui-tabs>
+
+  <router-outlet></router-outlet>
+</div>

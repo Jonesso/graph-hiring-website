@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -75,6 +76,9 @@ export class RelationsComponent implements OnInit {
   @Output() readonly relationSelect = new EventEmitter<IRelationshipDto>();
 
   @ViewChild('arrowsWrapper', {read: CdkScrollable, static: true}) arrowsWrapper: CdkScrollable | null = null;
+
+  constructor(public readonly elRef: ElementRef) {
+  }
 
   ngOnInit() {
     if (this.showForm) {

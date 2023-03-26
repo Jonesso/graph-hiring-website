@@ -39,9 +39,9 @@ export class CreateRelationDialogComponent {
     this.requestsService.createRelationRequest(createRelationDto).subscribe({
       next: () => {
         this.alertService.open(
-          'Relations request has been sent',
+          'Wait for other user to accept or decline it',
           {
-            label: 'Wait for other user to accept or decline it',
+            label: 'Relations request has been sent',
             status: TuiNotification.Info,
             autoClose: true,
             hasCloseButton: true

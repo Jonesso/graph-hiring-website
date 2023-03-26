@@ -1,0 +1,73 @@
+<tui-scrollbar>
+  <div cdkScrollable class="relation-requests-wrapper" *tuiLet="(route.params | async) as params">
+    <gh-relations
+      *ngFor="let relationReq of requestsService.list$ | async; let i = index"
+      #relationRequestComponent
+      [fromUser]="relationReq.fromUser"
+      [toUser]="relationReq.toUser"
+      [relations]="relationReq.requests"
+      (relationSelect)="onRelationRequestSelect(i, relationReq, $event, relationRequestComponent.elRef.nativeElement)"
+      (formSubmit)="onRelationRequestChange($event)"
+      [ngSwitch]="params ? params['requestType'] : ''"
+      [disabled]="!!params && params['requestType'] !== RelationRequestType.FromMe"
+      [selectedRelationId]="(relationsFacade.selected$ | async)?.id"
+      [showForm]="selectedRelationsBlockIndex === i"
+    >
+      <ng-container *ngSwitchCase="RelationRequestType.ToMe">
+        <button
+          tuiButton
+          appearance="secondary-destructive"
+          (click)="onDeclineClick()"
+        >
+          Decline
+        </button>
+
+        <button
+          tuiButton
+          icon="/assets/icons/user-check.svg"
+          (click)="onCreateRelationClick()"
+        >
+          Create relation
+        </button>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="RelationRequestType.FromMe">
+        <button
+          tuiButton
+          appearance="secondary-destructive"
+          (click)="onDeclineClick()"
+        >
+          Decline
+        </button>
+
+        <button
+          tuiButton
+          [disabled]="relationRequestComponent.form.pristine"
+          (click)="relationRequestComponent.onSubmit()"
+        >
+          Save
+        </button>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="RelationRequestType.Declined">
+        <ng-container *ngIf="(auth.user$ | async)?.id as currentUserId">
+          <button
+            *ngIf="currentUserId === $any((relationsFacade.selected$ | async))?.declinedBy else declinedByAnotherUser"
+            tuiButton
+            (click)="onReopenClick()"
+          >
+            Reopen
+          </button>
+
+          <ng-template #declinedByAnotherUser>
+            <tui-notification status="error">
+              This request was declined
+              by {{relationReq[relationReq.fromUser.id === currentUserId ? 'toUser' : 'fromUser'].firstName}}
+            </tui-notification>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+
+    </gh-relations>
+  </div>
+</tui-scrollbar>
