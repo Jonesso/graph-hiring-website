@@ -54,6 +54,7 @@
           <button
             *ngIf="currentUserId === $any((relationsFacade.selected$ | async))?.declinedBy else declinedByAnotherUser"
             tuiButton
+            icon="/assets/icons/repeat.svg"
             (click)="onReopenClick()"
           >
             Reopen
@@ -67,7 +68,6 @@
           </ng-template>
         </ng-container>
       </ng-container>
-
     </gh-relations>
   </div>
 </tui-scrollbar>

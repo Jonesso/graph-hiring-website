@@ -103,4 +103,38 @@ export const declinedRelationRequestsDtoMock: IGetRelationRequestsDto[] = [
       hourlyRate: 60,
     },
   },
+
+  {
+    requests: [
+      {
+        id: '4',
+        declined: true,
+        createdAt: '2023-03-03',
+        declinedBy: '123',
+        toUserId: '123',
+        fromUserId: '444',
+        type: RelationType.WorksWith,
+        startAt: '2020-05-01',
+        endAt: '2021-10-31',
+        comment: '',
+        description: 'Work together at Alibaba',
+      }
+    ],
+    fromUser: {
+      avatarSrc: 'https://randomuser.me/api/portraits/men/5.jpg',
+      id: '999',
+      email: 'test@test.email',
+      firstName: 'David',
+      lastName: 'Johnson',
+      hourlyRate: 20,
+    },
+    toUser: {
+      avatarSrc: 'https://taiga-ui.dev/assets/images/avatar.jpg',
+      id: '123',
+      email: 'test@test.email',
+      firstName: 'John',
+      lastName: 'Smith',
+      hourlyRate: 45,
+    },
+  },
 ];
