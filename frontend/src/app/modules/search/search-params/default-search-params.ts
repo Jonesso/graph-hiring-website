@@ -2,8 +2,7 @@ import { ISearchParamsDto, Languages } from '@shared/types/search/search-params.
 
 export const DEFAULT_SEARCH_PARAMS: Required<ISearchParamsDto> = {
   search: '',
-  hourlyRateMin: 0,
-  hourlyRateMax: null,
+  rateRange: [1, 1],
   networkSize: 1,
   relationTypes: [],
   experience: 0,

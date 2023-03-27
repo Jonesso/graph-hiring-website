@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@
 import { IRelationshipDto } from '@shared/types/relations/relationship.dto.interface';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { IUserDto } from '@shared/types/user/user.dto.interface';
 import { RelationsComponent } from '@shared/components/relations/relations.component';
 import { TuiDestroyService, TuiValidationError } from '@taiga-ui/cdk';
 import { RelationsFacade } from '@shared/components/relations/relations.facade';
@@ -11,10 +10,11 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { isNotNil } from '@shared/utils/is-not-nil/is-not-nil';
 import { ICreateRelationDto } from '@shared/types/relations/create-relation.dto.interface';
 import { RelationsService } from '@modules/search/relations.service';
+import { IRelationRequestUserDto } from '@shared/types/relations/relation-request-user.dto.interface';
 
 export interface IRelationsListDialogData {
-  fromUser: IUserDto;
-  toUser: IUserDto;
+  fromUser: IRelationRequestUserDto;
+  toUser: IRelationRequestUserDto;
   relations: IRelationshipDto[];
   selectedRelation?: IRelationshipDto;
   edit?: boolean;

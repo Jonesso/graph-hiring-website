@@ -20,8 +20,7 @@ export enum WorkType {
 
 export interface ISearchParamsDto {
   search?: string;
-  hourlyRateMin?: number;
-  hourlyRateMax?: number | null;
+  rateRange?: number[];
   networkSize?: number;
   relationTypes?: RelationType[];
   experience?: number;
