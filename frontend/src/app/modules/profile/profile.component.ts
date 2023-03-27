@@ -5,7 +5,7 @@ import { AuthService } from '@core/services/auth/auth.service';
 import { FullNamePipe } from '@shared/pipes/full-name/full-name.pipe';
 import { ProfileService } from '@modules/profile/profile.service';
 import { switchMap } from 'rxjs/operators';
-import { map, take } from 'rxjs';
+import { combineLatest, map, take } from 'rxjs';
 import { isNotNil } from '@shared/utils/is-not-nil/is-not-nil';
 
 @Component({
@@ -14,6 +14,13 @@ import { isNotNil } from '@shared/utils/is-not-nil/is-not-nil';
   styleUrls: ['./profile.component.less']
 })
 export class ProfileComponent implements OnInit {
+  whoseNetworkLabel$ = combineLatest([
+    this.guard.isMyProfile$,
+    this.profile.selectedUser$.pipe(isNotNil())
+  ]).pipe(map(([isMyProfile, user]) => isMyProfile
+    ? 'Your network'
+    : `${user.firstName}'s network`
+  ));
 
   constructor(public readonly guard: ProfileGuard,
               private readonly header: HeaderService,
