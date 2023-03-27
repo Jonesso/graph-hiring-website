@@ -13,10 +13,15 @@ import { DEFAULT_AVATAR_URL } from '@shared/constants';
 export class MenuComponent {
   @Input() user!: IUserDto;
 
+  isMenuOpen = false;
+
   readonly arrow = TUI_ARROW;
   readonly defaultAvatarUrl = DEFAULT_AVATAR_URL;
 
   constructor(public readonly auth: AuthService) {
   }
 
+  closeMenu(): void {
+    this.isMenuOpen = false;
+  }
 }

@@ -1,6 +1,7 @@
 <tui-hosted-dropdown
   [content]="menuItems"
   tuiDropdownLimitWidth="min"
+  [(open)]="isMenuOpen"
 >
   <button
     tuiButton
@@ -25,6 +26,7 @@
       role="menuitemradio"
       routerLinkActive
       [routerLink]="['/', 'search', user.id]"
+      (click)="closeMenu()"
     >
       Profile settings
     </a>
@@ -34,6 +36,7 @@
       role="menuitemradio"
       routerLinkActive
       [routerLink]="['/search']"
+      (click)="closeMenu()"
     >
       Search
     </a>
@@ -43,6 +46,7 @@
       role="menuitemradio"
       routerLinkActive
       [routerLink]="['/requests']"
+      (click)="closeMenu()"
     >
       Relation requests
     </a>
