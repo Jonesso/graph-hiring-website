@@ -14,7 +14,7 @@
     <tui-error
       formControlName="email"
       [error]="[] | tuiFieldError | async"
-    >Must be a valid email
+    >
     </tui-error>
 
     <tui-input-password
@@ -26,6 +26,11 @@
         tuiTextfield
       />
     </tui-input-password>
+    <tui-error
+      formControlName="password"
+      [error]="[] | tuiFieldError | async"
+    >
+    </tui-error>
 
 
     <div class="sign-in-form__actions tui-space_top-5">

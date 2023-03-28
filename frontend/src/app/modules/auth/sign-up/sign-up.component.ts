@@ -1,20 +1,30 @@
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "@core/services/auth/auth.service";
-import {ErrorService} from "@core/services/error.service";
-import {TuiDestroyService} from "@taiga-ui/cdk";
-import {ActivatedRoute, Router} from "@angular/router";
-import {takeUntil} from "rxjs";
-import {TuiAlertService, TuiNotification} from "@taiga-ui/core";
-import {EMAIL_REGEX} from "@shared/constants";
-import {HeaderService} from "@modules/header/header.service";
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '@core/services/auth/auth.service';
+import { ErrorService } from '@core/services/error.service';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntil } from 'rxjs';
+import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
+import { EMAIL_REGEX } from '@shared/constants';
+import { HeaderService } from '@modules/header/header.service';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 
 @Component({
   selector: 'gh-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [
+    TuiDestroyService,
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        required: 'This value is required',
+        pattern: 'Must be a valid email',
+      },
+    },
+  ],
 })
 export class SignUpComponent {
   signUpForm = new FormGroup({
@@ -55,7 +65,7 @@ export class SignUpComponent {
 
   showSuccessNotification() {
     this.alertService.open('Check your email for verification', {
-      label: "You've been successfully registered",
+      label: 'You\'ve been successfully registered',
       status: TuiNotification.Success,
       autoClose: true,
       hasCloseButton: true
