@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RelationType } from '@shared/types/relations/relation-type.enum';
 import { IRelationRequestUserDto } from '@shared/types/relations/relation-request-user.dto.interface';
@@ -25,10 +25,9 @@ import { CdkScrollable } from '@angular/cdk/overlay';
   templateUrl: './relations.component.html',
   styleUrls: ['./relations.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
 export class RelationsComponent implements OnInit {
-  RelationType = RelationType;
+  relationTypes = Object.values(RelationType);
   DEFAULT_AVATAR_URL = DEFAULT_AVATAR_URL;
 
   periodControl = new FormControl(null);

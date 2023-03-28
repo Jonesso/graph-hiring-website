@@ -16,6 +16,7 @@ import {
   TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { TuiKeysPipeModule } from '@taiga-ui/cdk';
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 
 const TUI_MODULES = [
   TuiScrollbarModule,
@@ -45,6 +46,7 @@ const TUI_MODULES = [
     FullNameModule,
     IsBidirectionalModule,
     RelationTypeModule,
+    CdkScrollableModule,
     TUI_MODULES,
   ]
 })

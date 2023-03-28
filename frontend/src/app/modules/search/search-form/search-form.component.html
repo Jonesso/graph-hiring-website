@@ -52,17 +52,25 @@
       </div>
 
       <h3 class="tui-form__header">Relation types</h3>
-      <tui-multi-select formControlName="relationTypes">
+      <tui-multi-select
+        formControlName="relationTypes"
+        [valueContent]="relationTypeSelectedItems"
+      >
         Relation type
-        <tui-data-list *tuiDataList>
-          <button
-            *ngFor="let relationType of relations.userFirstLevelRelationTypes$ | async"
-            tuiOption
-            [value]="relationType"
-          >
-            {{ relationType | relationType }}
-          </button>
-        </tui-data-list>
+        <!--        <tui-data-list *tuiDataList>-->
+        <!--          <button-->
+        <!--            *ngFor="let relationType of relations.userFirstLevelRelationTypes$ | async"-->
+        <!--            tuiOption-->
+        <!--            [value]="relationType"-->
+        <!--          >-->
+        <!--            {{ relationType | relationType }}-->
+        <!--          </button>-->
+        <!--        </tui-data-list>-->
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="relations.userFirstLevelRelationTypes$ | async"
+          [itemContent]="relationTypeSelectItem"
+        ></tui-data-list-wrapper>
       </tui-multi-select>
     </ng-container>
 
@@ -132,3 +140,14 @@
     </div>
   </form>
 </tui-scrollbar>
+
+
+<ng-template #relationTypeSelectedItems let-items>
+  <span class="selected-relation" *ngFor="let item of items">
+    {{ item | relationType }},
+  </span>
+</ng-template>
+
+<ng-template #relationTypeSelectItem let-item>
+  {{ item | relationType }}
+</ng-template>

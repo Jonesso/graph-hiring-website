@@ -7,7 +7,7 @@
   ></gh-profile-info>
 
   <tui-scrollbar>
-    <ul class="arrows-wrapper" #arrowsWrapper>
+    <ul class="arrows-wrapper" #arrowsWrapper cdkScrollable>
       <ng-container *ngIf="relations.length else requestCreation">
         <li *ngFor="let request of relations; let i = index">
           <button class="arrow-wrapper"
@@ -49,17 +49,16 @@
   (ngSubmit)="onSubmit()"
 >
 
-  <tui-select formControlName="type">
+  <tui-select
+    formControlName="type"
+    [valueContent]="relationTypeSelectItem"
+  >
     Relation type
-    <tui-data-list *tuiDataList>
-      <button
-        *ngFor="let entry of RelationType | keyvalue"
-        tuiOption
-        [value]="entry.value"
-      >
-        {{ entry.value | relationType }}
-      </button>
-    </tui-data-list>
+    <tui-data-list-wrapper
+      *tuiDataList
+      [items]="relationTypes"
+      [itemContent]="relationTypeSelectItem"
+    ></tui-data-list-wrapper>
   </tui-select>
 
   <tui-input-date-range
@@ -96,3 +95,8 @@
     <ng-content></ng-content>
   </div>
 </form>
+
+
+<ng-template #relationTypeSelectItem let-item>
+  {{ item | relationType }}
+</ng-template>
