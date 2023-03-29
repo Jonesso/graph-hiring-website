@@ -4,19 +4,18 @@
   *ngIf="(profileUser$ | async) as user"
 >
   <div class="tui-island__content">
-    <figure class="tui-island__figure">
-      <div class="some-figure"></div>
-    </figure>
-
-    <gh-profile-info [avatarSrc]="user.avatarSrc"
-                     [name]="user | fullName"
-                     [hourlyRate]="user.hourlyRate"
-                     [email]="user.email"
-                     [hourlyRateFormControl]="$any(form).controls['hourlyRate']"
-                     [nameFormControl]="$any(form).controls['firstName']"
-                     [emailFormControl]="$any(form).controls['email']"
-                     [editable]="!_disabled"
-                     (infoChange)="onProfileInfoChange($event)"></gh-profile-info>
+    <gh-profile-info
+      [avatarSrc]="user.avatarSrc"
+      [name]="user | fullName"
+      [hourlyRate]="user.hourlyRate"
+      [email]="user.email"
+      [hourlyRateFormControl]="$any(form).controls['hourlyRate']"
+      [nameFormControl]="$any(form).controls['firstName']"
+      [emailFormControl]="$any(form).controls['email']"
+      [editable]="!_disabled"
+      (infoChange)="onProfileInfoChange($event)"
+      (avatarChange)="onAvatarChange($event)"
+    ></gh-profile-info>
 
     <div class="tui-space_top-5" *ngIf="user.about">
       <h3 class="tui-island__title">About me</h3>

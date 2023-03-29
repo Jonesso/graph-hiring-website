@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { DEFAULT_AVATAR_URL } from '@shared/constants';
-import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
+import { AVATAR_EXTENSION, DEFAULT_AVATAR_URL } from '@shared/constants';
+import { TuiAlertService, TuiDialogContext, TuiDialogService, TuiNotification } from '@taiga-ui/core';
 import { FormControl } from '@angular/forms';
+import { Observer, of, Subject, switchMap } from 'rxjs';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { TuiFileLike } from '@taiga-ui/kit';
+import { ErrorService } from '@core/services/error.service';
 
 export interface IProfileInfoChangeEvent {
   hourlyRate: number | null;
@@ -16,7 +20,6 @@ export interface IProfileInfoChangeEvent {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileInfoComponent {
-
   @Input() avatarSrc = DEFAULT_AVATAR_URL;
   @Input() hourlyRate: number | null = null;
   @Input() name: string = '';
@@ -26,14 +29,35 @@ export class ProfileInfoComponent {
   @Input() emailFormControl: FormControl = new FormControl(null);
 
   _editable = false;
-
   @Input() set editable(val: string | boolean) {
     this._editable = typeof val === 'string' ? true : val;
   }
 
-  @Output() readonly infoChange = new EventEmitter<IProfileInfoChangeEvent>();
+  _uploadedAvatarDataUrl: string | null = null;
 
-  constructor(@Inject(TuiAlertService) private readonly alertService: TuiAlertService,) {
+  @Output() readonly infoChange = new EventEmitter<IProfileInfoChangeEvent>();
+  @Output() readonly avatarChange = new EventEmitter<Blob>();
+
+  avatarFileControl = new FormControl();
+
+  readonly loadedFiles$ = this.avatarFileControl.valueChanges.pipe(
+    switchMap(file => {
+      if (file) {
+        this.convertFileToDataUrl(file);
+
+        return of(file);
+      } else {
+        return of(null);
+      }
+    }),
+  );
+  readonly rejectedFiles$ = new Subject<TuiFileLike | null>();
+
+  constructor(
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    private readonly errorService: ErrorService,
+  ) {
   }
 
   onChange(prop: 'name' | 'email', event: Event): void {
@@ -73,4 +97,55 @@ export class ProfileInfoComponent {
     });
   }
 
+  convertFileToDataUrl(file: File | undefined): void {
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this._uploadedAvatarDataUrl = reader.result as string;
+      };
+      reader.onerror = () => this.errorService.showErrorNotification('Something went wrong while processing the file');
+    }
+  }
+
+  onAvatarCrop(croppedCanvas: HTMLCanvasElement, observer: Observer<unknown>): void {
+    croppedCanvas.toBlob(blob => {
+      if (!blob) {
+        this.errorService.showErrorNotification();
+        return;
+      }
+
+      this.avatarChange.emit(blob);
+      this.closeDialog(observer);
+    }, `image/${AVATAR_EXTENSION}`, .75);
+
+    this.avatarSrc = croppedCanvas.toDataURL(`image/${AVATAR_EXTENSION}`);
+  }
+
+  openUploadAvatarDialog(content: PolymorpheusContent<TuiDialogContext>): void {
+    this.dialogService.open(content, {
+      label: 'Upload avatar',
+      dismissible: false,
+      size: 'l',
+    }).subscribe();
+  }
+
+  onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
+    this.rejectedFiles$.next(file as TuiFileLike);
+  }
+
+  clearRejected(): void {
+    this.removeFile();
+    this.rejectedFiles$.next(null);
+  }
+
+  removeFile(): void {
+    this.avatarFileControl.setValue(null);
+  }
+
+  closeDialog(observer: Observer<unknown>): void {
+    this._uploadedAvatarDataUrl = null;
+    this.removeFile();
+    observer.complete();
+  }
 }

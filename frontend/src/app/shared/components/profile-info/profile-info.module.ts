@@ -1,10 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileInfoComponent } from './profile-info.component';
-import { TuiAvatarModule, TuiBadgeModule, TuiInputModule, TuiInputNumberModule } from '@taiga-ui/kit';
-import { TuiPrimitiveTextfieldModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiAvatarModule,
+  TuiBadgeModule,
+  TuiInputFilesModule,
+  TuiInputModule,
+  TuiInputNumberModule
+} from '@taiga-ui/kit';
+import {
+  TuiButtonModule,
+  TuiPrimitiveTextfieldModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule
+} from '@taiga-ui/core';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularCropperjsModule } from 'angular-cropperjs';
 
 const TUI_MODULES = [
   TuiAvatarModule,
@@ -13,6 +25,10 @@ const TUI_MODULES = [
   TuiTextfieldControllerModule,
   TuiInputNumberModule,
   TuiCurrencyPipeModule,
+  TuiPrimitiveTextfieldModule,
+  TuiBadgeModule,
+  TuiButtonModule,
+  TuiInputFilesModule,
 ];
 
 @NgModule({
@@ -24,10 +40,9 @@ const TUI_MODULES = [
   ],
   imports: [
     CommonModule,
-    TUI_MODULES,
     ReactiveFormsModule,
-    TuiPrimitiveTextfieldModule,
-    TuiBadgeModule,
+    AngularCropperjsModule,
+    TUI_MODULES,
   ]
 })
 export class ProfileInfoModule {

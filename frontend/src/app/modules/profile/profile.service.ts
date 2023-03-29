@@ -4,7 +4,7 @@ import { IUserDto } from '@shared/types/user/user.dto.interface';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@core/services/auth/auth.service';
 import { IPatchUserDto } from '@shared/types/user/patch-user.dto.interface';
-import { CURRENT_USER_PATH, USERS_PATH } from '@shared/routes/users';
+import { AVATAR_PATH, CURRENT_USER_PATH, USERS_PATH } from '@shared/routes/users';
 import { UrlBuilderService } from '@core/services/url-builder/url-builder.service';
 
 @Injectable({
@@ -32,5 +32,19 @@ export class ProfileService {
 
   setSelectedUser(user: IUserDto | null): void {
     this.selectedUser.next(user);
+  }
+
+  uploadAvatar(blob: Blob): Observable<unknown> {
+    const formData = new FormData();
+    formData.append('blob', blob);
+
+    return this.http.post(
+      new UrlBuilderService()
+        .toApi()
+        .withPostfix(USERS_PATH)
+        .withPostfix(AVATAR_PATH)
+        .build(),
+      formData
+    );
   }
 }

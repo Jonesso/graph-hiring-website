@@ -84,4 +84,7 @@ export class ProfileFormComponent implements OnInit {
     this.form.patchValue({firstName, lastName, email: change.email, hourlyRate: change.hourlyRate});
   }
 
+  onAvatarChange(blob: Blob): void {
+    this.profile.uploadAvatar(blob).subscribe();
+  }
 }

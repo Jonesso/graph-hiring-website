@@ -14,7 +14,10 @@
 
 .avatar-wrapper {
   position: relative;
-  width: @avatar-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: @avatar-size + 32px;
   margin-right: 16px;
 }
 
@@ -58,5 +61,17 @@
   &__rate-value {
     background-color: @accent;
     .get-typography(@font-size-l, @font-line-height-l, @font-weight-bold);
+  }
+}
+
+.upload-avatar-dialog {
+  &__input {
+    height: 10rem;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
   }
 }

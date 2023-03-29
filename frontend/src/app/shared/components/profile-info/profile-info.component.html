@@ -5,6 +5,62 @@
     [rounded]="true"
     size="xl"
   ></tui-avatar>
+
+  <ng-container *ngIf="_editable">
+    <button
+      tuiButton
+      class="tui-space_top-1"
+      icon="/assets/icons/upload.svg"
+      size="m"
+      (click)="openUploadAvatarDialog(avatarDialog)"
+    >
+      New avatar
+    </button>
+  </ng-container>
+
+  <ng-template #avatarDialog let-observer>
+    <tui-input-files
+      *ngIf="!avatarFileControl.value"
+      accept="image/*"
+      class="upload-avatar-dialog__input"
+      [formControl]="avatarFileControl"
+      (reject)="onReject($event)"
+    ></tui-input-files>
+
+    <tui-file
+      *ngIf="rejectedFiles$ | async as file"
+      state="error"
+      [file]="file"
+      [showDelete]="avatarFileControl.enabled"
+      (removed)="clearRejected()"
+    ></tui-file>
+
+    <ng-container *ngIf="loadedFiles$ | async as file">
+      <angular-cropper
+        [cropperOptions]="{aspectRatio: 1}"
+        [imageUrl]="_uploadedAvatarDataUrl"
+        #cropperComponent
+      ></angular-cropper>
+
+      <div class="upload-avatar-dialog__buttons">
+        <button
+          tuiButton
+          type="button"
+          appearance="secondary"
+          (click)="closeDialog(observer)"
+        >
+          Cancel
+        </button>
+
+        <button
+          tuiButton
+          (click)="onAvatarCrop(cropperComponent.cropper.getCroppedCanvas(), observer)"
+        >
+          Save
+        </button>
+      </div>
+    </ng-container>
+  </ng-template>
 </div>
 
 <div class="user-info">
