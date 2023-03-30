@@ -1,6 +1,6 @@
 @import '~src/style/shared/variables';
 
-@left-side-width: 480px;
+@left-side-width: 400px;
 
 :host {
   position: relative;
@@ -13,6 +13,8 @@
   left: @body-padding;
   bottom: @body-padding;
   width: @left-side-width;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {

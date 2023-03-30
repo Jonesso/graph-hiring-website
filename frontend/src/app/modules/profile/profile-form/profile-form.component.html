@@ -17,8 +17,8 @@
       (avatarChange)="onAvatarChange($event)"
     ></gh-profile-info>
 
-    <div class="tui-space_top-5" *ngIf="user.about">
-      <h3 class="tui-island__title">About me</h3>
+    <ng-container *ngIf="user.about">
+      <p class="tui-text_body-xl tui-space_bottom-2 tui-space_top-4">About me</p>
       <ng-container *ngIf="!_disabled; else nonEditableAbout">
         <form
           [formGroup]="form"
@@ -29,12 +29,16 @@
           ></tui-text-area>
         </form>
       </ng-container>
-    </div>
+    </ng-container>
   </div>
 </tui-island>
 
-<form [formGroup]="form" class="search-form">
-  <h3 class="tui-form__header">Keywords</h3>
+<form
+  [formGroup]="form"
+  class="search-form"
+  tuiTextfieldSize="m"
+>
+  <p class="search-form__field-label">Keywords</p>
   <tui-input-tag
     class="b-form"
     [tuiTextfieldLabelOutside]="true"
@@ -43,7 +47,7 @@
     Keywords
   </tui-input-tag>
 
-  <h3 class="tui-form__header">Phone</h3>
+  <p class="search-form__field-label">Phone</p>
   <tui-input-phone formControlName="phone">
     Phone number
     <input
@@ -52,19 +56,17 @@
     />
   </tui-input-phone>
 
-  <h3 class="tui-form__header">Experience</h3>
-  <div class="tui-form__row">
-    <tui-input-slider
-      formControlName="experience"
-      [min]="0"
-      [max]="100"
-      [segments]="1"
-    >
-      Years
-    </tui-input-slider>
-  </div>
+  <p class="search-form__field-label">Experience</p>
+  <tui-input-slider
+    formControlName="experience"
+    [min]="0"
+    [max]="100"
+    [segments]="1"
+  >
+    Years
+  </tui-input-slider>
 
-  <h3 class="tui-form__header">Languages</h3>
+  <p class="search-form__field-label">Languages</p>
   <tui-multi-select
     formControlName="languages"
     [tuiTextfieldLabelOutside]="true"
@@ -78,10 +80,11 @@
     ></tui-data-list-wrapper>
   </tui-multi-select>
 
-  <h3 class="tui-form__header">Work type</h3>
+  <p class="search-form__field-label">Work place</p>
   <div
     tuiGroup
     class="tui-form__row"
+    size="m"
     [adaptive]="true"
     [collapsed]="true"
   >
@@ -89,7 +92,7 @@
       contentAlign="right"
       formControlName="workType"
       [item]="WorkType.Onsite"
-      size="l"
+      size="m"
     >
       {{WorkType.Onsite}}
     </tui-radio-block>
@@ -97,7 +100,7 @@
       contentAlign="right"
       formControlName="workType"
       [item]="WorkType.Remote"
-      size="l"
+      size="m"
     >
       {{WorkType.Remote}}
     </tui-radio-block>
@@ -105,7 +108,7 @@
       contentAlign="right"
       formControlName="workType"
       [item]="WorkType.Hybrid"
-      size="l"
+      size="m"
     >
       {{WorkType.Hybrid}}
     </tui-radio-block>

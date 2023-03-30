@@ -63,7 +63,10 @@
   </ng-template>
 </div>
 
-<div class="user-info">
+<div
+  class="user-info"
+  [tuiTextfieldCleaner]="true"
+>
   <ng-container *ngIf="_editable else notEditable">
     <tui-primitive-textfield
       class="user-info__rate"
@@ -81,7 +84,6 @@
     <div class="user-info__name">
       <tui-primitive-textfield
         [value]="name"
-        [tuiTextfieldCleaner]="true"
       >
         Your name
         <input
@@ -96,7 +98,6 @@
       <tui-primitive-textfield
         [value]="email"
         tuiTextfieldIcon="tuiIconMailLarge"
-        [tuiTextfieldCleaner]="true"
       >
         Email
         <input
@@ -115,7 +116,7 @@
       [value]="hourlyRate + '$'"
       class="user-info__rate-value tui-space_bottom-1"
     ></tui-badge>
-    <span class="user-info__name-value" *ngIf="name">{{name}}</span>
+    <span class="user-info__name-value tui-space_bottom-1" *ngIf="name">{{name}}</span>
     <span class="user-info__email-value" *ngIf="email">
       <tui-svg src="tuiIconMailLarge" class="tui-space_right-1"></tui-svg>
       <span>{{email}}</span>

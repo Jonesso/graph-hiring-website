@@ -1,19 +1,24 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
 @control-gap: 8px;
 
 :host {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 tui-island {
   position: relative;
   width: 480px;
+  height: fit-content;
   min-width: 470px;
-  margin-right: 18px;
+  margin-right: 24px;
 }
 
 .user-info__about-value {
   text-align: left;
+  margin-top: 0;
 }
 
 .search-form {
@@ -22,4 +27,10 @@ tui-island {
   grid-template-columns: max-content 1fr;
   row-gap: @control-gap + 4px;
   column-gap: @control-gap + 8px;
+
+  &__field-label {
+    .text-body-l-bold();
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }

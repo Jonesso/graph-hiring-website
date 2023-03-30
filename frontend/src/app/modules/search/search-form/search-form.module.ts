@@ -7,7 +7,6 @@ import {
   TuiErrorModule,
   TuiGroupModule,
   TuiHintModule,
-  TuiScrollbarModule,
   TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,7 +39,6 @@ const TUI_MODULES = [
   TuiDataListModule,
   TuiMultiSelectModule,
   TuiInputRangeModule,
-  TuiScrollbarModule,
 ];
 
 @NgModule({

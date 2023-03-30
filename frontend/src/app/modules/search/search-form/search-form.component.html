@@ -1,25 +1,35 @@
-<tui-scrollbar>
-  <div class="header">
-    <h1 class="tui-text_h3">Search parameters</h1>
-    <button tuiButton appearance="secondary-destructive" (click)="resetForm()">Reset</button>
+<div class="header tui-space_bottom-2">
+  <span class="tui-text_h5">Search</span>
+  <button
+    tuiButton
+    appearance="secondary-destructive"
+    size="m"
+    (click)="resetForm()"
+  >
+    Reset
+  </button>
+</div>
+
+<form
+  class="search-form"
+  tuiTextfieldSize="m"
+  [formGroup]="form"
+>
+  <div class="tui-form__row">
+    <tui-input
+      formControlName="search"
+      [tuiTextfieldCleaner]="true"
+    >
+      Occupation, keywords, skills...
+    </tui-input>
+    <tui-error
+      formControlName="search"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
   </div>
 
-  <form class="search-form" [formGroup]="form">
-    <h3 class="tui-form__header tui-form__header_margin-top_none">Search</h3>
-    <div class="tui-form__row">
-      <tui-input
-        formControlName="search"
-        [tuiTextfieldCleaner]="true"
-      >
-        Occupation, keywords, skills...
-      </tui-input>
-      <tui-error
-        formControlName="search"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
-    </div>
-
-    <h3 class="tui-form__header">Rate range</h3>
+  <div class="tui-form__row">
+    <p class="search-form__field-label tui-space_bottom-2">Rate range</p>
     <tui-input-range
       [min]="1"
       [max]="1000"
@@ -28,9 +38,11 @@
       [tuiTextfieldLabelOutside]="true"
       [pluralize]="pluralize"
     ></tui-input-range>
+  </div>
 
-    <ng-container *ngIf="(profile.selectedUser$ | async) !== null">
-      <h3 class="tui-form__header">Network size</h3>
+  <ng-container *ngIf="(profile.selectedUser$ | async) !== null">
+    <div class="tui-form__row">
+      <p class="search-form__field-label tui-space_bottom-2">Network size</p>
       <input
         tuiSlider
         formControlName="networkSize"
@@ -50,66 +62,61 @@
           {{ label }}
         </button>
       </div>
+    </div>
 
-      <h3 class="tui-form__header">Relation types</h3>
+    <div class="tui-form__row">
+      <p class="search-form__field-label tui-space_bottom-2">Relation types</p>
       <tui-multi-select
         formControlName="relationTypes"
         [valueContent]="relationTypeSelectedItems"
       >
         Relation type
-        <!--        <tui-data-list *tuiDataList>-->
-        <!--          <button-->
-        <!--            *ngFor="let relationType of relations.userFirstLevelRelationTypes$ | async"-->
-        <!--            tuiOption-->
-        <!--            [value]="relationType"-->
-        <!--          >-->
-        <!--            {{ relationType | relationType }}-->
-        <!--          </button>-->
-        <!--        </tui-data-list>-->
         <tui-data-list-wrapper
           *tuiDataList
           [items]="relations.userFirstLevelRelationTypes$ | async"
           [itemContent]="relationTypeSelectItem"
         ></tui-data-list-wrapper>
       </tui-multi-select>
-    </ng-container>
-
-    <h3 class="tui-form__header">Experience</h3>
-    <div class="tui-form__row">
-      <tui-input-slider
-        formControlName="experience"
-        [min]="0"
-        [max]="100"
-        [segments]="1"
-      >
-        Years
-      </tui-input-slider>
-      <tui-error
-        formControlName="experience"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
     </div>
+  </ng-container>
 
-    <h3 class="tui-form__header">Languages</h3>
-    <div class="tui-form__row">
-      <tui-multi-select
-        formControlName="languages"
-        [tuiTextfieldLabelOutside]="true"
-        [editable]="false"
-      >
-        Choose languages
-        <tui-data-list-wrapper
-          *tuiDataList
-          tuiMultiSelectGroup
-          [items]="languagesNames"
-        ></tui-data-list-wrapper>
-      </tui-multi-select>
-    </div>
+  <div class="tui-form__row">
+    <p class="search-form__field-label tui-space_bottom-2">Experience</p>
+    <tui-input-slider
+      formControlName="experience"
+      [min]="0"
+      [max]="100"
+      [segments]="1"
+    >
+      Years
+    </tui-input-slider>
+    <tui-error
+      formControlName="experience"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+  </div>
 
-    <h3 class="tui-form__header">Work place</h3>
+  <div class="tui-form__row">
+    <p class="search-form__field-label tui-space_bottom-2">Languages</p>
+    <tui-multi-select
+      formControlName="languages"
+      [tuiTextfieldLabelOutside]="true"
+      [editable]="false"
+    >
+      Choose languages
+      <tui-data-list-wrapper
+        *tuiDataList
+        tuiMultiSelectGroup
+        [items]="languagesNames"
+      ></tui-data-list-wrapper>
+    </tui-multi-select>
+  </div>
+
+  <div class="tui-form__row">
+    <p class="search-form__field-label tui-space_bottom-2">Work place</p>
     <div
       tuiGroup
-      class="tui-form__row"
+      size="m"
       [adaptive]="true"
       [collapsed]="true"
     >
@@ -117,7 +124,7 @@
         contentAlign="right"
         formControlName="workType"
         [item]="WorkType.Onsite"
-        size="l"
+        size="m"
       >
         {{WorkType.Onsite}}
       </tui-radio-block>
@@ -125,7 +132,7 @@
         contentAlign="right"
         formControlName="workType"
         [item]="WorkType.Remote"
-        size="l"
+        size="m"
       >
         {{WorkType.Remote}}
       </tui-radio-block>
@@ -133,13 +140,13 @@
         contentAlign="right"
         formControlName="workType"
         [item]="WorkType.Hybrid"
-        size="l"
+        size="m"
       >
         {{WorkType.Hybrid}}
       </tui-radio-block>
     </div>
-  </form>
-</tui-scrollbar>
+  </div>
+</form>
 
 
 <ng-template #relationTypeSelectedItems let-items>
