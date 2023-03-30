@@ -1,15 +1,26 @@
-import {Injectable} from '@angular/core';
-import {Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, distinctUntilChanged, Observable, of, pluck, ReplaySubject, switchMap, tap} from "rxjs";
-import {IUserDto} from "@shared/types/user/user.dto.interface";
-import {ISigninDto} from "@shared/types/auth/sign-in.dto.interface";
-import {IRefreshTokenDto} from "@shared/types/auth/refresh-token.dto.interface";
-import {UrlBuilderService} from "@core/services/url-builder/url-builder.service";
-import {RefreshTokenService} from "@core/services/auth/refresh-token.service";
-import {AUTH_PATH, LOG_OUT_PATH, SIGN_IN_PATH, SIGN_UP_PATH} from "@shared/routes/auth";
-import {ISignupDto} from "@shared/types/auth/sign-up.dto.interface";
-import {userDtoMock} from "@shared/mocks/user-dto-mock";
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  mapTo,
+  Observable,
+  of,
+  pluck,
+  ReplaySubject,
+  switchMap,
+  tap,
+  throwError
+} from 'rxjs';
+import { IUserDto } from '@shared/types/user/user.dto.interface';
+import { ISigninDto } from '@shared/types/auth/sign-in.dto.interface';
+import { IRefreshTokenDto } from '@shared/types/auth/refresh-token.dto.interface';
+import { UrlBuilderService } from '@core/services/url-builder/url-builder.service';
+import { RefreshTokenService } from '@core/services/auth/refresh-token.service';
+import { AUTH_PATH, LOG_OUT_PATH, REFRESH_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '@shared/routes/auth';
+import { ISignupDto } from '@shared/types/auth/sign-up.dto.interface';
+import { userDtoMock } from '@shared/mocks/user-dto-mock';
 
 const defaultRedirectUrl = '';
 
@@ -69,7 +80,8 @@ export class AuthService {
         .withPostfix(AUTH_PATH)
         .withPostfix(SIGN_UP_PATH)
         .build(),
-      data);
+      data
+    );
   }
 
   logOut(): void {
@@ -93,5 +105,24 @@ export class AuthService {
       // navigate to same url to restart guards
       this.router.navigate([this.router.url]);
     }
+  }
+
+  updateToken(): Observable<void> {
+    if (this.tokenService.refreshToken === null) {
+      return throwError(new Error('No saved refresh token'));
+    }
+
+    return this.http.post<IRefreshTokenDto>(
+      new UrlBuilderService()
+        .toApi()
+        .withPostfix(AUTH_PATH)
+        .withPostfix(REFRESH_PATH)
+        .build(),
+      {refreshToken: this.tokenService.refreshToken}
+    ).pipe(
+      pluck('refreshToken'),
+      tap(refreshToken => this.tokenService.refreshToken = refreshToken),
+      mapTo(undefined)
+    );
   }
 }
