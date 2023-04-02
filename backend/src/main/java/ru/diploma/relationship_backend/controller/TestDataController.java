@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.diploma.relationship_backend.model.Relationship;
 import ru.diploma.relationship_backend.model.Request;
 import ru.diploma.relationship_backend.model.User;
-import ru.diploma.relationship_backend.service.TestDataService;
+import ru.diploma.relationship_backend.service.test_data.TestDataService;
 
 @RestController
 @RequestMapping("/test")
@@ -32,7 +32,7 @@ public class TestDataController {
   public List<Relationship> createTestRelations() {
     return testDataService.createTestRelationships();
   }
-
+  
   @DeleteMapping("/delete")
   public void deleteTestData() {
     testDataService.deleteTestData();

@@ -1,4 +1,4 @@
-package ru.diploma.relationship_backend.service;
+package ru.diploma.relationship_backend.service.test_data;
 
 import com.github.javafaker.Faker;
 import java.time.Instant;
@@ -6,11 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.diploma.relationship_backend.model.RelationType;
+import ru.diploma.relationship_backend.model.enums.RelationType;
 import ru.diploma.relationship_backend.model.Relationship;
 import ru.diploma.relationship_backend.model.Request;
 import ru.diploma.relationship_backend.model.User;
-import ru.diploma.relationship_backend.model.WorkType;
+import ru.diploma.relationship_backend.model.enums.WorkType;
 import ru.diploma.relationship_backend.repository.RelationshipRepository;
 import ru.diploma.relationship_backend.repository.RequestRepository;
 import ru.diploma.relationship_backend.repository.UserRepository;

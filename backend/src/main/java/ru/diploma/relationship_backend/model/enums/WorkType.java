@@ -1,4 +1,4 @@
-package ru.diploma.relationship_backend.model;
+package ru.diploma.relationship_backend.model.enums;
 
 import lombok.Getter;
 

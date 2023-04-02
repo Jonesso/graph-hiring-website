@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import ru.diploma.relationship_backend.model.enums.WorkType;
 
 @Node
 @Getter
@@ -33,5 +34,10 @@ public class User {
   private int hourlyRate;
   private String avatarSrc;
 
-
+  public User(String firstName, String lastName, String email, String password) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
 }
