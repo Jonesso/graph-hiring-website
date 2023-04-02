@@ -33,7 +33,7 @@ public class TestDataController {
     return testDataService.createTestRelationships();
   }
   
-  @DeleteMapping("/delete")
+  @DeleteMapping()
   public void deleteTestData() {
     testDataService.deleteTestData();
   }
