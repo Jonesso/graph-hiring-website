@@ -9,8 +9,8 @@ import { StatusCodes } from 'http-status-codes';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private readonly retryBlacklist = [
-    `${environment.baseApiUrl}/${AUTH_PATH}/${REFRESH_PATH}`,
-    `${environment.baseApiUrl}/${AUTH_PATH}/${SIGN_IN_PATH}`
+    `${environment.baseApiUrl}/api/${AUTH_PATH}/${REFRESH_PATH}`,
+    `${environment.baseApiUrl}/api/${AUTH_PATH}/${SIGN_IN_PATH}`
   ];
 
   constructor(private readonly auth: AuthService) {

@@ -45,7 +45,7 @@ export class SignInComponent {
       this.auth.signIn(this.signInForm.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          error: () => this.errorService.showErrorNotification()
+          error: err => this.errorService.showErrorNotification(err.error?.message || 'Unable to sign you in right now. Try again several minutes later.')
         });
     }
   }
