@@ -15,8 +15,23 @@
 <gh-menu *ngIf="(auth.user$ | async) as user else signInSignUp" [user]="user"></gh-menu>
 
 <ng-template #signInSignUp>
-  <a tuiButton routerLink="/auth/signin" size="m" appearance="outline" class="tui-space_right-3"
-     (click)="saveCurrentUrlToRedirectAfterLogin()">Sign
-    in</a>
-  <a tuiButton routerLink="/auth/signup" size="m" (click)="saveCurrentUrlToRedirectAfterLogin()">Sign up</a>
+  <a tuiButton
+     routerLink="/auth/signin"
+     size="m"
+     appearance="outline"
+     shape="rounded"
+     class="tui-space_right-2"
+     (click)="saveCurrentUrlToRedirectAfterLogin()"
+  >
+    Sign in
+  </a>
+  <a
+    tuiButton
+    routerLink="/auth/signup"
+    size="m"
+    shape="rounded"
+    (click)="saveCurrentUrlToRedirectAfterLogin()"
+  >
+    Sign up
+  </a>
 </ng-template>
