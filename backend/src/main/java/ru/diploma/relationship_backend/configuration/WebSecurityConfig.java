@@ -37,7 +37,7 @@ public class WebSecurityConfig {
         .authorizeHttpRequests()
         .requestMatchers("/test/**").permitAll()
         .requestMatchers("/api/auth/**").permitAll()
-        .requestMatchers("/api/user/**").authenticated();
+        .requestMatchers("/api/users/**").authenticated();
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(myCorsFilter, ChannelProcessingFilter.class);
 

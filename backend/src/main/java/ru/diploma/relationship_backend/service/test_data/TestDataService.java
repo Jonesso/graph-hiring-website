@@ -5,11 +5,12 @@ import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.diploma.relationship_backend.model.enums.RelationType;
 import ru.diploma.relationship_backend.model.Relationship;
 import ru.diploma.relationship_backend.model.Request;
 import ru.diploma.relationship_backend.model.User;
+import ru.diploma.relationship_backend.model.enums.RelationType;
 import ru.diploma.relationship_backend.model.enums.WorkType;
 import ru.diploma.relationship_backend.repository.RelationshipRepository;
 import ru.diploma.relationship_backend.repository.RequestRepository;
@@ -27,6 +28,9 @@ public class TestDataService {
   @Autowired
   public RelationshipRepository relationshipRepository;
 
+  @Autowired
+  PasswordEncoder passwordEncoder;
+
   public List<User> createTestUsers() {
     List<User> users = new LinkedList<>();
     for (int i = 0; i < 10; i++) {
@@ -40,7 +44,7 @@ public class TestDataService {
       user.setExperience(faker.number().numberBetween(0, 10));
       user.setHourlyRate(faker.number().numberBetween(10, 100));
       user.setAvatarSrc(faker.internet().avatar());
-      user.setPassword(faker.internet().password());
+      user.setPassword(passwordEncoder.encode(faker.internet().password()));
       user.setKeywords(faker.lorem().words(5).toArray(new String[0]));
       user.setLanguages(faker.lorem().words(5).toArray(new String[0]));
       user.setWorkType(WorkType.values()[faker.number().numberBetween(0, 2)]);

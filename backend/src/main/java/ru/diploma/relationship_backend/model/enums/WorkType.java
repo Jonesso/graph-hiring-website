@@ -13,4 +13,13 @@ public enum WorkType {
   WorkType(String name) {
     this.name = name;
   }
+
+  public static WorkType getWOrkTypeByValue(String value) {
+    for (WorkType workType: WorkType.values()
+    ) {
+      if (workType.name.equals(value))
+        return workType;
+    }
+    return null;
+  }
 }
