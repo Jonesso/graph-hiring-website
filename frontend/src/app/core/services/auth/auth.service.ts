@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import {
   BehaviorSubject,
+  catchError,
   distinctUntilChanged,
   mapTo,
   Observable,
@@ -20,7 +21,7 @@ import { UrlBuilderService } from '@core/services/url-builder/url-builder.servic
 import { RefreshTokenService } from '@core/services/auth/refresh-token.service';
 import { AUTH_PATH, LOG_OUT_PATH, REFRESH_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '@shared/routes/auth';
 import { ISignupDto } from '@shared/types/auth/sign-up.dto.interface';
-import { userDtoMock } from '@shared/mocks/user-dto-mock';
+import { CURRENT_USER_PATH, USERS_PATH } from '@shared/routes/users';
 
 const defaultRedirectUrl = '';
 
@@ -40,21 +41,16 @@ export class AuthService {
   }
 
   loadUser(): Observable<IUserDto | null> {
-    return of(userDtoMock).pipe(
-      tap(user => this._currentUser.next(user)),
+    return this.http.get<IUserDto>(
+      new UrlBuilderService()
+        .toApi()
+        .withPostfix(USERS_PATH)
+        .withPostfix(CURRENT_USER_PATH)
+        .build(),
+    ).pipe(
+      catchError(() => of(null)),
+      tap(user => this._currentUser.next(user))
     );
-
-    // TODO uncomment when backend's done
-    // return this.http.get<IUserDto>(
-    //   new UrlBuilderService()
-    //     .toApi()
-    //     .withPostfix(USERS_PATH)
-    //     .withPostfix(CURRENT_USER_PATH)
-    //     .build(),
-    // ).pipe(
-    //   catchError(() => of(null)),
-    //   tap(user => this._currentUser.next(user))
-    // );
   }
 
   signIn(data: ISigninDto): Observable<IUserDto | null> {
