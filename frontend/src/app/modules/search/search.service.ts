@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { IUserDto } from '@shared/types/user/user.dto.interface';
 import { BehaviorSubject, distinctUntilChanged, finalize, Observable, of, tap } from 'rxjs';
-import { userDtoMock } from '@shared/mocks/user-dto-mock';
 import { IUserListItem } from '@shared/types/user/user-list-item.dto.interface';
 import { ISearchParamsDto } from '@shared/types/search/search-params.dto.interface';
 import { userListItemsDtoMock } from '@shared/mocks/user-list-items-dto-mock';
+import { UrlBuilderService } from '@core/services/url-builder/url-builder.service';
+import { USERS_PATH } from '@shared/routes/users';
 
 @Injectable({
   providedIn: 'root'
@@ -24,21 +25,15 @@ export class SearchService extends TuiDestroyService {
 
   getUser(id: string): Observable<IUserDto> {
     this.usersLoading.next(true);
-
-    return of(userDtoMock).pipe(
+    return this.http.get<IUserDto>(
+      new UrlBuilderService()
+        .toApi()
+        .withPostfix(USERS_PATH)
+        .withPostfix(id)
+        .build(),
+    ).pipe(
       finalize(() => this.usersLoading.next(false))
     );
-
-    // TODO uncomment when backend's done
-    // return this.http.get<IUserDto>(
-    //   new UrlBuilderService()
-    //     .toApi()
-    //     .withPostfix(USERS_PATH)
-    //     .withPostfix(id)
-    //     .build(),
-    // ).pipe(
-    //   finalize(() => this.usersLoading.next(false))
-    // );
   }
 
   getUsers(params: ISearchParamsDto): Observable<IUserListItem[]> {
