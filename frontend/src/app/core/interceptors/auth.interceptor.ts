@@ -1,19 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
-import { environment } from '@env';
 import { AUTH_PATH, REFRESH_PATH, SIGN_IN_PATH } from '@shared/routes/auth';
 import { AuthService } from '@core/services/auth/auth.service';
 import { StatusCodes } from 'http-status-codes';
+import { API_BASE_URL } from '@shared/tokens/api-base-url.token';
+import { RefreshTokenService } from '@core/services/auth/refresh-token.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private readonly retryBlacklist = [
-    `${environment.baseApiUrl}/api/${AUTH_PATH}/${REFRESH_PATH}`,
-    `${environment.baseApiUrl}/api/${AUTH_PATH}/${SIGN_IN_PATH}`
+    `${this.baseApiUrl}/api/${AUTH_PATH}/${REFRESH_PATH}`,
+    `${this.baseApiUrl}/api/${AUTH_PATH}/${SIGN_IN_PATH}`
   ];
 
-  constructor(private readonly auth: AuthService) {
+  constructor(
+    @Inject(API_BASE_URL) private readonly baseApiUrl: string,
+    private readonly tokenService: RefreshTokenService,
+    private readonly auth: AuthService) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -21,7 +25,14 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
 
-    const reqWithCredentials = request.clone({withCredentials: true});
+    const bearerToken = this.tokenService.refreshToken ? `Bearer ${this.tokenService.refreshToken}` : '';
+    const reqWithCredentials = request.clone({
+      withCredentials: true,
+      setHeaders: {
+        Authorization: bearerToken
+      }
+    });
+
     return next.handle(reqWithCredentials).pipe(
       catchError((res: HttpResponse<unknown>) => {
         if (res.status === StatusCodes.UNAUTHORIZED && res.url && !this.retryBlacklist.includes(res.url)) {
