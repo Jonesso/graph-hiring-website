@@ -1,3 +1,5 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
 :host(.not-authenticated-user) {
   --row-height: 226px;
 }
@@ -13,4 +15,9 @@
 
 .loading-opacity {
   opacity: .3;
+}
+
+.no-users-warn {
+  .text-body-m();
+  width: 50%;
 }

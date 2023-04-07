@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchResultComponent } from './search-result.component';
 import { TuiAvatarModule, TuiBadgeModule, TuiTabsModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiHintModule, TuiLoaderModule, TuiScrollbarModule, TuiSvgModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiHintModule,
+  TuiLoaderModule,
+  TuiNotificationModule,
+  TuiScrollbarModule,
+  TuiSvgModule
+} from '@taiga-ui/core';
 import { SearchResultListComponent } from './search-result-list/search-result-list.component';
 import { UserCardComponent } from './search-result-list/user-card/user-card.component';
 import { FullNameModule } from '@shared/pipes/full-name/full-name.module';
@@ -36,6 +43,7 @@ const TUI_MODULES = [
   TuiLetModule,
   TuiButtonModule,
   TuiHintModule,
+  TuiNotificationModule,
 ];
 
 @NgModule({

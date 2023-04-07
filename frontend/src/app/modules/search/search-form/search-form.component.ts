@@ -27,12 +27,12 @@ export class SearchFormComponent implements OnInit {
   };
 
   form = new FormGroup({
-    search: new FormControl(``, Validators.required),
-    rateRange: new FormControl([1, 1]),
+    search: new FormControl('', Validators.required),
+    rateRange: new FormControl([1, 1000]),
     networkSize: new FormControl(1),
     relationTypes: new FormControl([]),
     experience: new FormControl(),
-    languages: new FormControl(),
+    languages: new FormControl([Languages.English]),
     workType: new FormControl(`${WorkType.Onsite}`)
   });
 
@@ -65,11 +65,11 @@ export class SearchFormComponent implements OnInit {
   resetForm(): void {
     this.form.reset({
       search: '',
-      rateRange: [1, 1],
+      rateRange: [1, 1000],
       networkSize: 1,
       relationTypes: [],
       experience: 0,
-      languages: [],
+      languages: [Languages.English],
       workType: `${WorkType.Onsite}`
     });
   }

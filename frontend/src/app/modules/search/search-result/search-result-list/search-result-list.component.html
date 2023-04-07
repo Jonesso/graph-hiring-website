@@ -9,6 +9,11 @@
   </ng-container>
 
   <ng-template #noUsers>
-    <span class="pn-hint">No users satisfying the request</span>
+    <tui-notification
+      status="warning"
+      class="no-users-warn"
+    >
+      No users satisfying the request
+    </tui-notification>
   </ng-template>
 </ng-container>
