@@ -1,10 +1,12 @@
 package ru.diploma.relationship_backend.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.diploma.relationship_backend.model.User;
 import ru.diploma.relationship_backend.model.enums.WorkType;
 import ru.diploma.relationship_backend.pojo.PatchUserRequest;
+import ru.diploma.relationship_backend.pojo.SearchParamsRequest;
 import ru.diploma.relationship_backend.repository.UserRepository;
 
 @Service
@@ -26,7 +28,7 @@ public class UserService {
     user.setHourlyRate(patchUserRequest.getHourlyRate());
     user.setLanguages(patchUserRequest.getLanguages());
     user.setLastName(patchUserRequest.getLastName());
-    user.setWorkType(WorkType.getWOrkTypeByValue(patchUserRequest.getWorkType()));
+    user.setWorkType(patchUserRequest.getWorkType());
     user.setPhone(patchUserRequest.getPhone());
     return userRepository.save(user);
   }
@@ -37,5 +39,23 @@ public class UserService {
 
   public User getUserById(Long id) {
     return userRepository.findById(id).orElse(null);
+  }
+
+  public List<User> search(
+      SearchParamsRequest searchParamsRequest, String email) {
+    Long id = getCurrentUser(email).getId();
+    searchParamsRequest = SearchParamsRequest.normalizeData(searchParamsRequest);
+    int minRate = searchParamsRequest.getRateRange()[0];
+    int maxRate = searchParamsRequest.getRateRange()[1];
+    WorkType[] workTypes;
+    if (searchParamsRequest.getWorkType() == WorkType.All) {
+      workTypes = WorkType.values();
+    } else {
+      workTypes = new WorkType[]{searchParamsRequest.getWorkType()};
+    }
+    return userRepository.search(searchParamsRequest.getSearch(),
+        searchParamsRequest.getFromUserId(), searchParamsRequest.getNetworkSize(),
+        workTypes, searchParamsRequest.getLanguages(), id, minRate, maxRate,
+        searchParamsRequest.getExperience());
   }
 }

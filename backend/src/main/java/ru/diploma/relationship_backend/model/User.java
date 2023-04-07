@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import ru.diploma.relationship_backend.model.enums.Language;
 import ru.diploma.relationship_backend.model.enums.WorkType;
 
 @Node
@@ -29,7 +30,7 @@ public class User {
   private String about;
   private WorkType workType;
   private int experience;
-  private String[] languages;
+  private Language[] languages;
   private String[] keywords;
   private int hourlyRate;
   private String avatarSrc;

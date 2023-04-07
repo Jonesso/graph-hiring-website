@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.diploma.relationship_backend.configuration.jwt.JwtUtils;
 import ru.diploma.relationship_backend.model.User;
+import ru.diploma.relationship_backend.pojo.JwtResponse;
 import ru.diploma.relationship_backend.pojo.LoginRequest;
 import ru.diploma.relationship_backend.pojo.MessageResponse;
 import ru.diploma.relationship_backend.pojo.SignupRequest;
@@ -57,5 +58,10 @@ public class AuthService {
     } catch (Exception e) {
       return ResponseEntity.internalServerError().body("Can not clear context");
     }
+  }
+
+  public ResponseEntity<?> refreshToken(String jwt) {
+    String email = jwtUtils.getUserNameFromJwtToken(jwt);
+    return ResponseEntity.ok(new JwtResponse(jwtUtils.generateJwtToken(email)));
   }
 }

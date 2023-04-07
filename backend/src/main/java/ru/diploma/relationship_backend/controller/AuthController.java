@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.diploma.relationship_backend.pojo.JwtResponse;
 import ru.diploma.relationship_backend.pojo.LoginRequest;
+import ru.diploma.relationship_backend.pojo.RefreshRequest;
 import ru.diploma.relationship_backend.pojo.SignupRequest;
 import ru.diploma.relationship_backend.service.auth.AuthService;
 
@@ -36,4 +37,8 @@ public class AuthController {
     return authService.logoutUser();
   }
 
+  @PostMapping("/refresh")
+  public ResponseEntity<?> refreshToken(@RequestBody RefreshRequest refreshRequest) {
+    return authService.refreshToken(refreshRequest.getRefreshToken());
+  }
 }

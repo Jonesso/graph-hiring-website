@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.diploma.relationship_backend.model.Relationship;
 import ru.diploma.relationship_backend.model.Request;
 import ru.diploma.relationship_backend.model.User;
+import ru.diploma.relationship_backend.model.enums.Language;
 import ru.diploma.relationship_backend.model.enums.RelationType;
 import ru.diploma.relationship_backend.model.enums.WorkType;
 import ru.diploma.relationship_backend.repository.RelationshipRepository;
@@ -46,7 +47,7 @@ public class TestDataService {
       user.setAvatarSrc(faker.internet().avatar());
       user.setPassword(passwordEncoder.encode(faker.internet().password()));
       user.setKeywords(faker.lorem().words(5).toArray(new String[0]));
-      user.setLanguages(faker.lorem().words(5).toArray(new String[0]));
+      user.setLanguages(Language.values());
       user.setWorkType(WorkType.values()[faker.number().numberBetween(0, 2)]);
       users.add(userRepository.save(user));
     }

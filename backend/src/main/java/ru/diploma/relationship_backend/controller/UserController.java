@@ -6,11 +6,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.diploma.relationship_backend.model.User;
 import ru.diploma.relationship_backend.pojo.PatchUserRequest;
+import ru.diploma.relationship_backend.pojo.SearchParamsRequest;
 import ru.diploma.relationship_backend.service.UserService;
 
 @RestController
@@ -44,6 +46,13 @@ public class UserController {
     } else {
       return ResponseEntity.badRequest().body("User not found");
     }
+  }
+
+  @PostMapping()
+  public ResponseEntity<?> search(@RequestBody() SearchParamsRequest searchParamsRequest,
+      Authentication authentication) {
+
+    return ResponseEntity.ok(userService.search(searchParamsRequest, (String) authentication.getPrincipal()));
   }
 
 }
