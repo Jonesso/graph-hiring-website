@@ -52,7 +52,7 @@ public class UserController {
   public ResponseEntity<?> search(@RequestBody() SearchParamsRequest searchParamsRequest,
       Authentication authentication) {
 
-    return ResponseEntity.ok(userService.search(searchParamsRequest, (String) authentication.getPrincipal()));
+    return userService.search(searchParamsRequest, (String) authentication.getPrincipal());
   }
 
 }

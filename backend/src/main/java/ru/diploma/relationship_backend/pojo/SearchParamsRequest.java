@@ -26,7 +26,7 @@ public class SearchParamsRequest {
     } else {
       newSearchParamRequest.setNetworkSize(searchParamsRequest.getNetworkSize());
     }
-    if (searchParamsRequest.getRelationTypes() == null) {
+    if (searchParamsRequest.getRelationTypes().length == 0) {
       newSearchParamRequest.setRelationTypes(RelationType.values());
     } else {
       newSearchParamRequest.setRelationTypes(searchParamsRequest.getRelationTypes());
@@ -36,7 +36,7 @@ public class SearchParamsRequest {
     } else {
       newSearchParamRequest.setExperience(searchParamsRequest.getExperience());
     }
-    if (searchParamsRequest.getLanguages() == null) {
+    if (searchParamsRequest.getLanguages().length == 0) {
       newSearchParamRequest.setLanguages(Language.values());
     } else {
       newSearchParamRequest.setLanguages(searchParamsRequest.getLanguages());

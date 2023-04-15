@@ -44,10 +44,16 @@ public class TestDataService {
       user.setAbout(faker.lorem().paragraph());
       user.setExperience(faker.number().numberBetween(0, 10));
       user.setHourlyRate(faker.number().numberBetween(10, 100));
-      user.setAvatarSrc(faker.internet().avatar());
+      user.setAvatarSrc(
+          "https://picsum.photos/200/300?random=" + faker.number().numberBetween(0, 1000));
       user.setPassword(passwordEncoder.encode(faker.internet().password()));
       user.setKeywords(faker.lorem().words(5).toArray(new String[0]));
-      user.setLanguages(Language.values());
+      int languagesCount = faker.number().numberBetween(2, 3);
+      Language[] languages = new Language[languagesCount];
+      for (int j = 0; j < languagesCount; j++) {
+        languages[j] = Language.values()[faker.number().numberBetween(0, Language.values().length)];
+      }
+      user.setLanguages(languages);
       user.setWorkType(WorkType.values()[faker.number().numberBetween(0, 2)]);
       users.add(userRepository.save(user));
     }

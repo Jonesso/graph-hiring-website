@@ -2,6 +2,7 @@ package ru.diploma.relationship_backend.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.diploma.relationship_backend.model.User;
 import ru.diploma.relationship_backend.model.enums.WorkType;
@@ -41,21 +42,25 @@ public class UserService {
     return userRepository.findById(id).orElse(null);
   }
 
-  public List<User> search(
+  public ResponseEntity<?> search(
       SearchParamsRequest searchParamsRequest, String email) {
-    Long id = getCurrentUser(email).getId();
-    searchParamsRequest = SearchParamsRequest.normalizeData(searchParamsRequest);
-    int minRate = searchParamsRequest.getRateRange()[0];
-    int maxRate = searchParamsRequest.getRateRange()[1];
-    WorkType[] workTypes;
-    if (searchParamsRequest.getWorkType() == WorkType.All) {
-      workTypes = WorkType.values();
-    } else {
-      workTypes = new WorkType[]{searchParamsRequest.getWorkType()};
+    try {
+      Long id = getCurrentUser(email).getId();
+      searchParamsRequest = SearchParamsRequest.normalizeData(searchParamsRequest);
+      int minRate = searchParamsRequest.getRateRange()[0];
+      int maxRate = searchParamsRequest.getRateRange()[1];
+      WorkType[] workTypes;
+      if (searchParamsRequest.getWorkType() == WorkType.All) {
+        workTypes = WorkType.values();
+      } else {
+        workTypes = new WorkType[]{searchParamsRequest.getWorkType()};
+      }
+      return ResponseEntity.ok(userRepository.search(searchParamsRequest.getSearch(),
+          searchParamsRequest.getFromUserId(), searchParamsRequest.getNetworkSize(),
+          workTypes, searchParamsRequest.getLanguages(), id, minRate, maxRate,
+          searchParamsRequest.getExperience()));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
     }
-    return userRepository.search(searchParamsRequest.getSearch(),
-        searchParamsRequest.getFromUserId(), searchParamsRequest.getNetworkSize(),
-        workTypes, searchParamsRequest.getLanguages(), id, minRate, maxRate,
-        searchParamsRequest.getExperience());
   }
 }

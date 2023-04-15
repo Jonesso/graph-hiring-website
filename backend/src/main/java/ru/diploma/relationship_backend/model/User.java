@@ -20,20 +20,20 @@ public class User {
 
   @Id
   @GeneratedValue
-  private Long id;
-  private String password;
-  private String email;
-  private Instant createdAt = Instant.now();
-  private String firstName;
-  private String lastName;
-  private String phone;
-  private String about;
-  private WorkType workType;
-  private int experience;
-  private Language[] languages;
-  private String[] keywords;
-  private int hourlyRate;
-  private String avatarSrc;
+  protected Long id;
+  protected String password;
+  protected String email;
+  protected Instant createdAt = Instant.now();
+  protected String firstName;
+  protected String lastName;
+  protected String phone;
+  protected String about;
+  protected WorkType workType;
+  protected int experience;
+  protected Language[] languages;
+  protected String[] keywords;
+  protected int hourlyRate;
+  protected String avatarSrc;
 
   public User(String firstName, String lastName, String email, String password) {
     this.firstName = firstName;
