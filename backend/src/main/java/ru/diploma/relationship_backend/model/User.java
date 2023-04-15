@@ -29,10 +29,10 @@ public class User {
   protected String phone;
   protected String about;
   protected WorkType workType;
-  protected int experience;
+  protected Integer experience;
   protected Language[] languages;
   protected String[] keywords;
-  protected int hourlyRate;
+  protected Integer hourlyRate;
   protected String avatarSrc;
 
   public User(String firstName, String lastName, String email, String password) {
