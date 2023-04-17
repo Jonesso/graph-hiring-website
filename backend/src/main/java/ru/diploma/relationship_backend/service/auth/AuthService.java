@@ -48,7 +48,7 @@ public class AuthService {
     User user = new User(signupRequest.getFirstname(), signupRequest.getLastname(),
         signupRequest.getEmail(), passwordEncoder.encode(signupRequest.getPassword()));
     userRepository.save(user);
-    return ResponseEntity.ok("User created");
+    return ResponseEntity.ok(user);
   }
 
   public ResponseEntity<?> logoutUser() {
