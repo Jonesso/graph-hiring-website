@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IUserDto } from '@shared/types/user/user.dto.interface';
 import { TUI_ARROW } from '@taiga-ui/kit';
 import { AuthService } from '@core/services/auth/auth.service';
-import { DEFAULT_AVATAR_URL } from '@shared/constants';
 
 @Component({
   selector: 'gh-menu',
@@ -16,7 +15,7 @@ export class MenuComponent {
   isMenuOpen = false;
 
   readonly arrow = TUI_ARROW;
-  readonly defaultAvatarUrl = DEFAULT_AVATAR_URL;
+  readonly defaultAvatarUrl = 'assets/default-user-avatar_white.svg';
 
   constructor(public readonly auth: AuthService) {
   }

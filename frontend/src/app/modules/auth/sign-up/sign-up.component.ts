@@ -64,7 +64,7 @@ export class SignUpComponent {
   }
 
   showSuccessNotification() {
-    this.alertService.open('Check your email for verification', {
+    this.alertService.open('Now you can sign in to the app', {
       label: 'You\'ve been successfully registered',
       status: TuiNotification.Success,
       autoClose: true,
