@@ -95,17 +95,12 @@
     </div>
 
     <div class="user-info__email" *ngIf="email">
-      <tui-primitive-textfield
-        [value]="email"
+      <tui-input
+        [formControl]="emailControl"
         tuiTextfieldIcon="tuiIconMailLarge"
       >
         Email
-        <input
-          tuiTextfield
-          type="email"
-          (change)="onChange('email', $event)"
-        />
-      </tui-primitive-textfield>
+      </tui-input>
     </div>
   </ng-container>
 

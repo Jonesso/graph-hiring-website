@@ -27,7 +27,7 @@ export class ProfileGuard implements CanActivate, CanDeactivate<ProfileComponent
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.auth.user$.pipe(
       take(1),
-      map(user => user?.id === route.params['id']),
+      map(user => user?.id.toString() === route.params['id']),
     ).subscribe(isMyProfile => this.isMyProfile.next(isMyProfile));
 
     return this.search.getUser(route.params['id'])

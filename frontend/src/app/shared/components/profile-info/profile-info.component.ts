@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { AVATAR_EXTENSION, DEFAULT_AVATAR_URL } from '@shared/constants';
 import { TuiAlertService, TuiDialogContext, TuiDialogService, TuiNotification } from '@taiga-ui/core';
 import { FormControl } from '@angular/forms';
@@ -19,7 +19,7 @@ export interface IProfileInfoChangeEvent {
   styleUrls: ['./profile-info.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileInfoComponent {
+export class ProfileInfoComponent implements OnInit {
   @Input() avatarSrc = DEFAULT_AVATAR_URL;
   @Input() hourlyRate: number | null = null;
   @Input() name: string = '';
@@ -39,6 +39,7 @@ export class ProfileInfoComponent {
   @Output() readonly avatarChange = new EventEmitter<Blob>();
 
   avatarFileControl = new FormControl();
+  emailControl = new FormControl();
 
   readonly loadedFiles$ = this.avatarFileControl.valueChanges.pipe(
     switchMap(file => {
@@ -58,6 +59,11 @@ export class ProfileInfoComponent {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private readonly errorService: ErrorService,
   ) {
+    this.emailControl.disable();
+  }
+
+  ngOnInit() {
+    this.emailControl.setValue(this.email);
   }
 
   onChange(prop: 'name' | 'email', event: Event): void {
