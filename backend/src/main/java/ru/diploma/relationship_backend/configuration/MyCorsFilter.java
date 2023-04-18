@@ -15,7 +15,7 @@ public class MyCorsFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws IOException, ServletException {
     response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-    response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
     response.setHeader("Access-Control-Max-Age", "3600");
     response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, xsrf-token");
     response.addHeader("Access-Control-Expose-Headers", "xsrf-token");

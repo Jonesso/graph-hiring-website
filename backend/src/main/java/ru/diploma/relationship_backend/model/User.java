@@ -41,5 +41,6 @@ public class User {
     this.email = email;
     this.password = password;
     this.hourlyRate = 0;
+    this.workType = WorkType.Hybrid;
   }
 }

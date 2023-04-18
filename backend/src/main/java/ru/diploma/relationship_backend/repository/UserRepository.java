@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;
+import ru.diploma.relationship_backend.model.SearchUserResult;
 import ru.diploma.relationship_backend.model.User;
 import ru.diploma.relationship_backend.model.enums.Language;
 import ru.diploma.relationship_backend.model.enums.WorkType;
@@ -23,26 +24,31 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
           AND  ANY( language in u.languages WHERE language in ?#{#languages} )
           AND (u.hourlyRate >= ?#{#minRate} ) AND (u.hourlyRate <= ?#{#maxRate} )
           AND (u.experience >= ?#{#experience} )
-          AND (CASE WHEN ?#{#fromUserId} > -1
-              THEN EXISTS((u)-[:RELATIONSHIP*1..1]-(:User {id: ?#{#fromUserId}}))
-              ELSE true END)
+          AND (u.email <> ?#{#fromUserEmail})
           WITH collect(u) as users
           UNWIND users as u
           CALL {
-          WITH u
-          MATCH (:User {id: $fromUserId})-[relation:RELATIONSHIP]-(u)
-          WITH size(collect(relation)) as relationsWithOriginCount
-          RETURN relationsWithOriginCount
-          }
-          CALL {
         WITH u
-        MATCH (:User {id: $searcherUserId})-[relation:RELATIONSHIP]-(u)
-        WITH size(collect(relation)) as relationsCount
+        MATCH (:User {email: $searcherUserEmail})-[r2]-(r:Relationship)-[r1]-(u)
+        WITH size(collect(r)) as relationsCount
         RETURN relationsCount
       }
-          RETURN users
+      CALL {
+        WITH u
+        MATCH (:User {email: ?#{#fromUserEmail}})-[r2]-(r:Relationship)-[r1]-(u)
+        WITH size(collect(r)) as relationsWithOriginCount
+        RETURN relationsWithOriginCount
+      }
+      CALL {
+        WITH u
+        MATCH (relatedUser:User)-[r2]-(r:Relationship)-[r1]-(u)
+        WITH size((collect(distinct relatedUser))) as networkSize
+        RETURN networkSize
+      }
+          RETURN u as user, relationsCount, relationsWithOriginCount, networkSize
               """
   )
-  List<User> search(String search, Long fromUserId, Integer networkSize, WorkType[] workTypes,
-      Language[] languages, Long searcherUserId, int minRate, int maxRate, int experience);
+  List<SearchUserResult> search(String search, String fromUserEmail, Integer networkSize, WorkType[] workTypes,
+      Language[] languages, String searcherUserEmail, int minRate, int maxRate, int experience);
+//  MATCH (u:User)-[r2]-(r:Relationship)-[r1]-(u2:User) where u.email = "myriam.koss@hotmail.com" return u.email, r.type, u2.email
 }
