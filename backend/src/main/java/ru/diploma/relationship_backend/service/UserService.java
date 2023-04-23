@@ -1,5 +1,8 @@
 package ru.diploma.relationship_backend.service;
 
+import jakarta.transaction.Transaction;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,9 @@ public class UserService {
 
   @Autowired
   UserRepository userRepository;
+
+  @Autowired
+  DbClient dbClient;
 
   public User patchUser(String email, PatchUserRequest patchUserRequest) {
     User user = getCurrentUser(email);
@@ -47,12 +53,6 @@ public class UserService {
       searchParamsRequest = SearchParamsRequest.normalizeData(searchParamsRequest);
       int minRate = searchParamsRequest.getRateRange()[0];
       int maxRate = searchParamsRequest.getRateRange()[1];
-      WorkType[] workTypes;
-      if (searchParamsRequest.getWorkType() == WorkType.All) {
-        workTypes = WorkType.values();
-      } else {
-        workTypes = new WorkType[]{searchParamsRequest.getWorkType()};
-      }
       String fromUserEmail;
       User fromUser = getUserById(searchParamsRequest.getFromUserId());
       if (fromUser == null) {
@@ -60,10 +60,14 @@ public class UserService {
       } else {
         fromUserEmail = fromUser.getEmail();
       }
-      return ResponseEntity.ok(userRepository.search(searchParamsRequest.getSearch(),
+
+
+      return ResponseEntity.ok(dbClient.search(searchParamsRequest.getSearch(),
           fromUserEmail, searchParamsRequest.getNetworkSize(),
-          workTypes, searchParamsRequest.getLanguages(), email, minRate, maxRate,
+          searchParamsRequest.getWorkType().name(),
+          Arrays.stream(searchParamsRequest.getLanguages()).map(Enum::name).collect(Collectors.toList()), email, minRate, maxRate,
           searchParamsRequest.getExperience()));
+
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }

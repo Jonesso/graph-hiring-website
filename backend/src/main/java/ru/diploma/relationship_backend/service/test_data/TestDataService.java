@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -94,8 +95,11 @@ public class TestDataService {
       User user1 = userRepository.findAll().get((int) faker.number().numberBetween(0,
           userRepository.count() - 1));
       relationship.setToUserId(user1);
-      relationship.setFromUserId(getAnotherUser(user1));
+      User anotherUser = getAnotherUser(user1);
+      relationship.setFromUserId(anotherUser);
       relationships.add(relationshipRepository.save(relationship));
+      user1.getUsers().add(anotherUser);
+      userRepository.save(user1);
       createAdditionalRelationIfNeeded(relationship.getFromUserId(), relationship.getToUserId(),
           relationship.getType());
     }
@@ -104,7 +108,7 @@ public class TestDataService {
 
   private User getAnotherUser(User user) {
     List<User> otherUsers = userRepository.findAll();
-    otherUsers.remove(user);
+    otherUsers.removeIf(Predicate.isEqual(user));
     return otherUsers.get(new Faker().number().numberBetween(0, otherUsers.size()));
   }
 

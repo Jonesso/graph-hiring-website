@@ -12,25 +12,24 @@ import ru.diploma.relationship_backend.model.enums.WorkType;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchUserResult  {
+public class SearchUserResult {
 
-//    private User user;
-protected Long id;
-    protected String password;
-    protected String email;
-    protected Instant createdAt = Instant.now();
-    protected String firstName;
-    protected String lastName;
-    protected String phone;
-    protected String about;
-    protected WorkType workType;
-    protected Integer experience;
-    protected Language[] languages;
-    protected String[] keywords;
-    protected Integer hourlyRate;
-    protected String avatarSrc;
-    private int relationsCount;
-    private int relationsWithOriginCount;
-    private int networkSize;
-    private Boolean intermediate;
+  private Long id;
+  private String password;
+  private String email;
+  private Instant createdAt = Instant.now();
+  private String firstName;
+  private String lastName;
+  private String phone;
+  private String about;
+  private WorkType workType;
+  private Integer experience;
+  private Language[] languages;
+  private String[] keywords;
+  private Integer hourlyRate;
+  private String avatarSrc;
+  private int relationsCount;
+  private int relationsWithOriginCount;
+  private int networkSize;
+  private Boolean intermediate;
 }

@@ -9,6 +9,7 @@ import ru.diploma.relationship_backend.model.enums.WorkType;
 @Getter
 @Setter
 public class SearchParamsRequest {
+
   private String search = null;
   private Integer[] rateRange = null;
   private Integer networkSize = 1;
@@ -51,7 +52,7 @@ public class SearchParamsRequest {
     } else {
       newSearchParamRequest.setFromUserId(searchParamsRequest.getFromUserId());
     }
-    newSearchParamRequest.setSearch("*"+searchParamsRequest.getSearch()+"*~");
+    newSearchParamRequest.setSearch("*" + searchParamsRequest.getSearch() + "*~");
     newSearchParamRequest.setRateRange(searchParamsRequest.getRateRange());
     return newSearchParamRequest;
   }
