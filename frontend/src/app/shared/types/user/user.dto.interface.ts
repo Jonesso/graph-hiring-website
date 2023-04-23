@@ -1,7 +1,7 @@
-import {Languages, WorkType} from '../search/search-params.dto.interface';
+import { Languages, WorkType } from '../search/search-params.dto.interface';
 
 export interface IUserDto {
-  avatarSrc: string;
+  avatarSrc: string | null;
   id: string;
   createdAt: string;
   email: string;

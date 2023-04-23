@@ -5,7 +5,7 @@
 >
   <div class="tui-island__content">
     <gh-profile-info
-      [avatarSrc]="user.avatarSrc"
+      [avatarSrc]="user.avatarSrc || DEFAULT_AVATAR_URL"
       [name]="user | fullName"
       [hourlyRate]="user.hourlyRate"
       [email]="user.email"

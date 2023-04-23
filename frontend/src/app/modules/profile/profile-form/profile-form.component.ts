@@ -8,6 +8,7 @@ import { catchError, Observable, of, skip, switchMap, take, takeUntil, tap } fro
 import { IUserDto } from '@shared/types/user/user.dto.interface';
 import { isNotNil } from '@shared/utils/is-not-nil/is-not-nil';
 import { IProfileInfoChangeEvent } from '@shared/components/profile-info/profile-info.component';
+import { DEFAULT_AVATAR_URL } from '../../../shared/constants';
 
 @Component({
   selector: 'gh-profile-form',
@@ -17,7 +18,7 @@ import { IProfileInfoChangeEvent } from '@shared/components/profile-info/profile
   providers: [TuiDestroyService],
 })
 export class ProfileFormComponent implements OnInit {
-
+  readonly DEFAULT_AVATAR_URL = DEFAULT_AVATAR_URL;
   readonly WorkType = WorkType;
   readonly languagesNames = Object.values(Languages);
 

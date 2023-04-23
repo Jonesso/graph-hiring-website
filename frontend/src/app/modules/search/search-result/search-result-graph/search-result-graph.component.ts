@@ -105,6 +105,7 @@ export class SearchResultGraphComponent {
           selectedRelation: selectedEdge,
         },
         dismissible: true,
+        size: 'auto',
       }
     ).pipe(takeUntil(this.destroy$))
       .subscribe();
