@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, finalize, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, distinctUntilChanged, finalize, Observable, of, tap } from 'rxjs';
 import { RelationType } from '@shared/types/relations/relation-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { UrlBuilderService } from '@core/services/url-builder/url-builder.service';
-import { RELATIONSHIPS_PATH } from '@shared/routes/relationships';
+import { GRAPH_PATH, RELATIONSHIPS_PATH } from '@shared/routes/relationships';
 import { IGraphDto } from '@shared/types/relations/graph.dto.interface';
 import { IRelationshipDto } from '@shared/types/relations/relationship.dto.interface';
 import { IGraphSearchParamsDto } from '@shared/types/relations/graph-search-params.dto.interface';
 import { IUpdateRelationshipDto } from '@shared/types/relations/update-relationship.dto.interface';
 import { relationshipDtoMock } from '@shared/mocks/relationship-dto-mock';
-import { graphDtoMock } from '@shared/mocks/graph-dto-mock';
+import { ErrorService } from '@core/services/error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,8 @@ export class RelationsService {
   private readonly isLoading = new BehaviorSubject<boolean>(false);
   readonly isLoading$ = this.isLoading.pipe(distinctUntilChanged());
 
-  constructor(private readonly http: HttpClient) {
+  constructor(private readonly http: HttpClient,
+              private readonly errors: ErrorService,) {
   }
 
   getRelationsBetweenUsers(userId1: string, userId2: string): Observable<IRelationshipDto[]> {
@@ -44,23 +45,21 @@ export class RelationsService {
   getGraph(params: IGraphSearchParamsDto): Observable<IGraphDto> {
     this.isLoading.next(true);
 
-    return of(graphDtoMock).pipe(
+    return this.http.post<IGraphDto>(
+      new UrlBuilderService()
+        .toApi()
+        .withPostfix(RELATIONSHIPS_PATH)
+        .withPostfix(GRAPH_PATH)
+        .build(),
+      params
+    ).pipe(
       tap(graph => this.result.next(graph)),
+      catchError(() => {
+        this.errors.showErrorNotification();
+        return of({nodes: [], edges: []});
+      }),
       finalize(() => this.isLoading.next(false))
     );
-
-    // TODO uncomment when backend's done
-    // return this.http.get<IGraphDto>(
-    //   new UrlBuilderService()
-    //     .toApi()
-    //     .withPostfix(RELATIONSHIPS_PATH)
-    //     .withPostfix(GRAPH_PATH)
-    //     .build(),
-    //   {params: getParamsWithoutNilsAndEmptyStringsOrArrays(params)}
-    // ).pipe(
-    //   tap(graph => this.result.next(graph)),
-    //   finalize(() => this.isLoading.next(false))
-    // );
   }
 
   getUserRelationTypes(userId: string): Observable<RelationType[]> {
