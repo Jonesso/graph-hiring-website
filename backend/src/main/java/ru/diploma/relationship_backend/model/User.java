@@ -1,5 +1,6 @@
 package ru.diploma.relationship_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,8 +38,10 @@ public class User {
   private String[] keywords;
   private Integer hourlyRate;
   private String avatarSrc;
-  @Relationship(type = "RELATIONSHIP")
-  private Set<User> users = new HashSet<>();
+
+  @JsonIgnore
+  @Relationship(type = "RELATIONSHIP", direction = Relationship.Direction.OUTGOING)
+  private Set<RelationshipEntity> relationships = new HashSet<>();
   
 
   public User(String firstName, String lastName, String email, String password) {

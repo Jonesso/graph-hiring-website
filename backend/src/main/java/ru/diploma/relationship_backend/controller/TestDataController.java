@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.diploma.relationship_backend.model.Relationship;
+import ru.diploma.relationship_backend.model.RelationshipEntity;
 import ru.diploma.relationship_backend.model.Request;
 import ru.diploma.relationship_backend.model.User;
 import ru.diploma.relationship_backend.service.test_data.TestDataService;
@@ -29,7 +29,7 @@ public class TestDataController {
   }
 
   @PostMapping("/create-relations")
-  public List<Relationship> createTestRelations() {
+  public List<RelationshipEntity> createTestRelations() {
     return testDataService.createTestRelationships();
   }
   

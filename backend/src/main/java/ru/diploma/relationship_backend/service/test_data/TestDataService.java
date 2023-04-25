@@ -2,13 +2,15 @@ package ru.diploma.relationship_backend.service.test_data;
 
 import com.github.javafaker.Faker;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.diploma.relationship_backend.model.Relationship;
+import ru.diploma.relationship_backend.model.RelationshipEntity;
 import ru.diploma.relationship_backend.model.Request;
 import ru.diploma.relationship_backend.model.User;
 import ru.diploma.relationship_backend.model.enums.Language;
@@ -82,26 +84,26 @@ public class TestDataService {
     return requests;
   }
 
-  public List<Relationship> createTestRelationships() {
-    List<Relationship> relationships = new LinkedList<>();
+  public List<RelationshipEntity> createTestRelationships() {
+    List<RelationshipEntity> relationships = new LinkedList<>();
     for (int i = 0; i < 5; i++) {
       Faker faker = new Faker();
-      Relationship relationship = new Relationship();
+      RelationshipEntity relationship = new RelationshipEntity();
       relationship.setCreatedAt(Instant.now());
       relationship.setDescription(faker.lorem().paragraph());
-      relationship.setStartAt(Instant.now());
+      relationship.setStartAt(Instant.now().minus(20, ChronoUnit.DAYS));
+      relationship.setEndAt(Instant.now().minus(faker.number().numberBetween(0, 10), ChronoUnit.DAYS));
       relationship.setType(RelationType.values()[faker.number().numberBetween(0, 4)]);
 
       User user1 = userRepository.findAll().get((int) faker.number().numberBetween(0,
           userRepository.count() - 1));
+      User user2 = getAnotherUser(user1);
       relationship.setToUserId(user1);
-      User anotherUser = getAnotherUser(user1);
-      relationship.setFromUserId(anotherUser);
-      relationships.add(relationshipRepository.save(relationship));
-      user1.getUsers().add(anotherUser);
-      userRepository.save(user1);
-      createAdditionalRelationIfNeeded(relationship.getFromUserId(), relationship.getToUserId(),
-          relationship.getType());
+      user2.getRelationships().add(relationship);
+      userRepository.save(user2);
+      createAdditionalRelationIfNeeded(user1, user2,
+          relationship.getType(), relationship.getEndAt());
+      relationships.add(relationship);
     }
     return relationships;
   }
@@ -112,7 +114,8 @@ public class TestDataService {
     return otherUsers.get(new Faker().number().numberBetween(0, otherUsers.size()));
   }
 
-  private void createAdditionalRelationIfNeeded(User user1, User user2, RelationType type) {
+  private void createAdditionalRelationIfNeeded(User user1, User user2, RelationType type,
+      Instant endAt) {
     RelationType backType;
     if (type == RelationType.SUBORDINATE_TO) {
       backType = RelationType.SUPERVISED;
@@ -121,14 +124,16 @@ public class TestDataService {
     } else {
       return;
     }
-    Relationship relationship = new Relationship();
+    RelationshipEntity relationship = new RelationshipEntity();
     relationship.setCreatedAt(Instant.now());
     relationship.setDescription("Additional relation");
     relationship.setStartAt(Instant.now());
     relationship.setType(backType);
-    relationship.setFromUserId(user2);
-    relationship.setToUserId(user1);
-    relationshipRepository.save(relationship);
+    relationship.setToUserId(user2);
+    user1.getRelationships().add(relationship);
+    relationship.setEndAt(endAt);
+    userRepository.save(user1);
+//    relationshipRepository.save(relationship);
   }
 
   public void deleteTestData() {

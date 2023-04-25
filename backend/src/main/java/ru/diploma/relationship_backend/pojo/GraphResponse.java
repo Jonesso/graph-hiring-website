@@ -3,7 +3,8 @@ package ru.diploma.relationship_backend.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.diploma.relationship_backend.model.Relationship;
+import ru.diploma.relationship_backend.model.RelationshipEntity;
+import ru.diploma.relationship_backend.model.SearchRelationshipResult;
 import ru.diploma.relationship_backend.model.SearchUserResult;
 
 @Getter
@@ -12,5 +13,5 @@ import ru.diploma.relationship_backend.model.SearchUserResult;
 public class GraphResponse {
 
   private SearchUserResult[] nodes;
-  private Relationship[] edges;
+  private SearchRelationshipResult[] edges;
 }

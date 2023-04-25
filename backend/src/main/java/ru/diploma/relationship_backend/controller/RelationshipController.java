@@ -25,8 +25,8 @@ public class RelationshipController {
   }
 
   @PostMapping("/graph")
-  public ResponseEntity<?> getGraph(@RequestBody() SearchParamsRequest searchParamsRequest) {
-    return ResponseEntity.ok(relationshipService.getGraph(searchParamsRequest));
+  public ResponseEntity<?> getGraph(@RequestBody() SearchParamsRequest searchParamsRequest, Authentication authentication) {
+    return ResponseEntity.ok(relationshipService.getGraph(searchParamsRequest, (String) authentication.getPrincipal()));
   }
 
   @GetMapping("/user-relation-types/{user}")
