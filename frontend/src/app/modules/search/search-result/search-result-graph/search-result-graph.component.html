@@ -5,7 +5,9 @@
                   [nodes]="ngxGraph.nodes"
                   [panToNode$]="selectedUserId$"
                   [minZoomLevel]=".5"
-                  [maxZoomLevel]="1.5" xmlns:svg="http://www.w3.org/2000/svg">
+                  [maxZoomLevel]="1.5"
+                  [showMiniMap]="true"
+                  xmlns:svg="http://www.w3.org/2000/svg">
 
   <ng-template #nodeTemplate let-node>
     <svg:g ghUserNode
